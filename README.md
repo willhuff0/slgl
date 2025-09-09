@@ -36,7 +36,7 @@ Toggle backends
 Note: First configure downloads dependencies (network required). The WebGPU distribution target copies the runtime library next to the executable.
 
 ## Minimal Usage Flow
-```
+```c++
 Platform::Backend* platform = Platform::GetBackend();
 auto window = platform->CreateWindow(800, 600, "Hello, SLGL!");
 
@@ -50,7 +50,7 @@ while (!window->ShouldClose()) {
 ```
 
 ## Graphics API Example
-```
+```c++
 using namespace SLGL::Graphics;
 
 Buffer::Ref buffer = gfx->CreateBuffer()

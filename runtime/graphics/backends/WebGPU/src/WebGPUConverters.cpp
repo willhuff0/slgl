@@ -1,4 +1,4 @@
-#include "WebGPUConverters.hpp"
+#include "backends/WebGPU/WebGPUConverters.hpp"
 
 namespace SLGL::Graphics {
     wgpu::TextureViewDimension WebGPU::convertTextureViewDimension(Graphics::Texture::View::Dimension dimension) {

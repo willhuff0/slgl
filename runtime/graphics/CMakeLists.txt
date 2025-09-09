@@ -3,6 +3,7 @@ add_library(SLGL::RUNTIME::GRAPHICS ALIAS SLGL_RUNTIME_GRAPHICS)
 
 target_sources(SLGL_RUNTIME_GRAPHICS
     PRIVATE
+        src/Graphics.cpp
         src/BindSetBuilder.cpp
         src/BufferBuilder.cpp
         src/SamplerBuilder.cpp
@@ -14,9 +15,9 @@ target_sources(SLGL_RUNTIME_GRAPHICS
         FILE_SET HEADERS
         BASE_DIRS include
         FILES
-            include/slgl/runtime/graphics/GFX.hpp
+            include/slgl/runtime/graphics/Graphics.hpp
+            include/slgl/runtime/graphics/Backend.hpp
             include/slgl/runtime/graphics/Surface.hpp
-            include/slgl/runtime/graphics/SurfaceFactory.hpp
             include/slgl/runtime/graphics/Flags.hpp
             include/slgl/runtime/graphics/Queue.hpp
             include/slgl/runtime/graphics/Buffer.hpp
@@ -45,18 +46,18 @@ target_include_directories(SLGL_RUNTIME_GRAPHICS
 )
 
 # backend options
-option(SLGL_GFX_BACKEND_VULKAN "Enable Vulkan backend" OFF)
-option(SLGL_GFX_BACKEND_WEBGPU "Enable WebGPU backend" ON)
+option(SLGL_GRAPHICS_BACKEND_VULKAN "Enable Vulkan graphics backend" OFF)
+option(SLGL_GRAPHICS_BACKEND_WEBGPU "Enable WebGPU graphics backend" ON)
 
 target_compile_definitions(SLGL_RUNTIME_GRAPHICS
     PUBLIC
-        $<$<BOOL:${SLGL_GFX_BACKEND_VULKAN}>:SLGL_GFX_BACKEND_VULKAN>
-        $<$<BOOL:${SLGL_GFX_BACKEND_WEBGPU}>:SLGL_GFX_BACKEND_WEBGPU>
+        $<$<BOOL:${SLGL_GRAPHICS_BACKEND_VULKAN}>:SLGL_GRAPHICS_BACKEND_VULKAN>
+        $<$<BOOL:${SLGL_GRAPHICS_BACKEND_WEBGPU}>:SLGL_GRAPHICS_BACKEND_WEBGPU>
 )
 
-if (SLGL_GFX_BACKEND_VULKAN)
+if (SLGL_GRAPHICS_BACKEND_VULKAN)
     add_subdirectory(backends/Vulkan)
 endif()
-if (SLGL_GFX_BACKEND_WEBGPU)
+if (SLGL_GRAPHICS_BACKEND_WEBGPU)
     add_subdirectory(backends/WebGPU)
 endif()

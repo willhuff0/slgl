@@ -1,15 +1,15 @@
 #pragma once
 
-#include "GFX.hpp"
+#include "Backend.hpp"
 
 #include <unordered_map>
 
 namespace SLGL::Graphics {
     class MipmapGenerator {
     public:
-        MipmapGenerator(GFX* gfx, const Data::Shader& shader);
+        MipmapGenerator(Backend* gfx, const Data::Shader& shader);
 
-        void GenerateMipmaps(GFX* gfx, Queue* queue, const Texture::Ref& texture, int mipLevels);
+        void GenerateMipmaps(Backend* gfx, Queue* queue, const Texture::Ref& texture, int mipLevels);
 
     private:
         ShaderModule::Ref shaderModule;

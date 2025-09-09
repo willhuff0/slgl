@@ -3,7 +3,7 @@
 #include <string>
 
 namespace SLGL::Graphics {
-    MipmapGenerator::MipmapGenerator(GFX* gfx, const Data::Shader& shader) {
+    MipmapGenerator::MipmapGenerator(Backend* gfx, const Data::Shader& shader) {
         ShaderModule::Source::Ref shaderSource = gfx->CreateShaderSource(shader);
 
         shaderModule = gfx->CreateShaderModule()
@@ -13,8 +13,14 @@ namespace SLGL::Graphics {
 
         bindSetLayout = gfx->CreateBindSetLayout()
                 .SetLabel("SLGL Mipmap Generate Bind Set Layout")
-                .AddEntry(0, { .sampler = BindSet::Layout::Entry::Sampler { } })
-                .AddEntry(1, { .texture = BindSet::Layout::Entry::Texture { } })
+                .AddEntry(0, {
+                    .type = BindSet::Layout::Entry::Type::Sampler,
+                    .sampler = BindSet::Layout::Entry::Sampler { }
+                })
+                .AddEntry(1, {
+                    .type = BindSet::Layout::Entry::Type::Texture,
+                    .texture = BindSet::Layout::Entry::Texture { }
+                })
                 .Build();
 
         shaderPipelineLayout = gfx->CreateShaderPipelineLayout()
@@ -30,7 +36,7 @@ namespace SLGL::Graphics {
                 .Build();
     }
 
-    void MipmapGenerator::GenerateMipmaps(GFX* gfx, Queue* queue, const Texture::Ref& texture, int mipLevels) {
+    void MipmapGenerator::GenerateMipmaps(Backend* gfx, Queue* queue, const Texture::Ref& texture, int mipLevels) {
         ShaderPipeline::Render::Ref pipeline = nullptr;
 
         auto iter = shaderRenderPipelines.find(texture->GetFormat());

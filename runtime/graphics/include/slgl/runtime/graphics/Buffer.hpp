@@ -39,8 +39,8 @@ namespace SLGL::Graphics {
             Builder& SetUsage(Usage::Flags newUsage);
             Builder& SetSize(uint64_t newSize);
 
-            [[nodiscard]] const std::string &getLabel() const;
-            [[nodiscard]] const Usage::Flags &getUsage() const;
+            [[nodiscard]] const std::string& getLabel() const;
+            [[nodiscard]] const Usage::Flags& getUsage() const;
             [[nodiscard]] uint64_t getSize() const;
 
             Ref Build();
@@ -59,7 +59,7 @@ namespace SLGL::Graphics {
         virtual const std::string& GetLabel() = 0;
         virtual uint64_t GetSize() = 0;
 
-        virtual void Write(Queue* queue, void *src, unsigned long offset, uint64_t size) = 0;
+        virtual void Write(Queue* queue, void *src, uint64_t offset, uint64_t size) = 0;
         virtual void Write(Queue* queue, void *src) = 0;
     };
 }

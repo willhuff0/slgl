@@ -13,7 +13,7 @@
 #include <cstdint>
 
 namespace SLGL::Graphics {
-    class GFX;
+    class Backend;
 
     class BindSet {
     public:

@@ -2,7 +2,7 @@ include(FetchContent)
 
 set(SLGL_WEBGPU_BACKEND "DAWN" CACHE STRING "Implementation of WebGPU. Possible values are DAWN and WGPU")
 set_property(CACHE SLGL_WEBGPU_BACKEND PROPERTY STRINGS "DAWN" "WGPU")
-if(SLGL_WEBGPU_BACKEND STREQUAL "DAWN")
+if (SLGL_WEBGPU_BACKEND STREQUAL "DAWN")
     set(WEBGPU_BACKEND "DAWN" CACHE STRING "" FORCE)
 elseif (SLGL_WEBGPU_BACKEND STREQUAL "WGPU")
     set(WEBGPU_BACKEND "WGPU" CACHE STRING "" FORCE)
@@ -24,48 +24,53 @@ add_custom_target(copy_webgpu_binaries ALL
 )
 add_dependencies(SLGL_RUNTIME_EXECUTABLE copy_webgpu_binaries)
 
-target_include_directories(SLGL_RUNTIME_GRAPHICS PRIVATE headers)
-
 target_sources(SLGL_RUNTIME_GRAPHICS
     PRIVATE
         src/webgpu_cpp_impl.cpp
         src/WebGPUDebug.cpp
         src/WebGPUContext.cpp
         src/WebGPULimits.cpp
-        src/WebGPUFactories.cpp
+        src/WebGPUCreators.cpp
         src/WebGPUConverters.cpp
-        src/GFX/WebGPUGFX.cpp
-        src/GFX/WebGPUSurface.cpp
-        src/GFX/WebGPURenderEncoder.cpp
-        src/GFX/WebGPUBuffer.cpp
-        src/GFX/WebGPUTexture.cpp
-        src/GFX/WebGPUTextureView.cpp
-        src/GFX/WebGPUSampler.cpp
-        src/GFX/WebGPUBindSet.cpp
-        src/GFX/WebGPUBindSetLayout.cpp
-        src/GFX/WebGPUShaderModule.cpp
-        src/GFX/WebGPUShaderPipelineLayout.cpp
-        src/GFX/WebGPUShaderRenderPipeline.cpp
-        src/GFX/WebGPUCommandBuffer.cpp
-        src/GFX/WebGPUCommandEncoder.cpp
+        src/WebGPUBackend.cpp
+        src/WebGPUSurface.cpp
+        src/WebGPURenderEncoder.cpp
+        src/WebGPUBuffer.cpp
+        src/WebGPUTexture.cpp
+        src/WebGPUTextureView.cpp
+        src/WebGPUSampler.cpp
+        src/WebGPUBindSet.cpp
+        src/WebGPUBindSetLayout.cpp
+        src/WebGPUShaderModule.cpp
+        src/WebGPUShaderPipelineLayout.cpp
+        src/WebGPUShaderRenderPipeline.cpp
+        src/WebGPUCommandBuffer.cpp
+        src/WebGPUCommandEncoder.cpp
     PUBLIC
         FILE_SET HEADERS
-        BASE_DIRS headers
+        BASE_DIRS include
         FILES
-            headers/WebGPUDebug.hpp
-            headers/WebGPUContext.hpp
-            headers/WebGPULimits.hpp
-            headers/WebGPUConverters.hpp
-            headers/GFX/WebGPUGFX.hpp
-            headers/GFX/WebGPUSurface.hpp
-            headers/GFX/WebGPURenderEncoder.hpp
-            headers/GFX/WebGPUBuffer.hpp
-            headers/GFX/WebGPUTexture.hpp
-            headers/GFX/WebGPUSampler.hpp
-            headers/GFX/WebGPUBindSet.hpp
-            headers/GFX/WebGPUShaderModule.hpp
-            headers/GFX/WebGPUShaderPipelineLayout.hpp
-            headers/GFX/WebGPUShaderRenderPipeline.hpp
-            headers/GFX/WebGPUCommandBuffer.hpp
-            headers/GFX/WebGPUCommandEncoder.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUDebug.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUContext.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPULimits.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUConverters.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUBackend.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUSurface.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPURenderEncoder.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUBuffer.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUTexture.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUSampler.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUBindSet.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUShaderModule.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUShaderPipelineLayout.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUShaderRenderPipeline.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUCommandBuffer.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPUCommandEncoder.hpp
+)
+
+target_include_directories(SLGL_RUNTIME_GRAPHICS
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+           $<INSTALL_INTERFACE:include>
+    PRIVATE
+        include/slgl/runtime/graphics
 )

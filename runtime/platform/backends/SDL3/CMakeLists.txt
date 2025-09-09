@@ -1,4 +1,4 @@
-find_package(SDL3 3.2.22 REQUIRED)
+find_package(SDL3 3.2.10 CONFIG REQUIRED)
 target_link_libraries(SLGL_RUNTIME_PLATFORM PRIVATE SDL3::SDL3)
 
 target_sources(SLGL_RUNTIME_PLATFORM

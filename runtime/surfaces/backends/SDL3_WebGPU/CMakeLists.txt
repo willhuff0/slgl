@@ -1,6 +1,6 @@
 include(FetchContent)
 
-find_package(SDL3 3.2.22 REQUIRED)
+find_package(SDL3 3.2.10 CONFIG REQUIRED)
 FetchContent_Declare(sdl3webgpu
     URL      https://github.com/eliemichel/sdl3webgpu/archive/refs/heads/main.tar.gz
     URL_HASH SHA256=67fb46e03aec005f67d3784f5cafbaf7210837f0c1ea56b4edac539bc9356d44

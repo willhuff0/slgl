@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 
 #include <string>
+#include <stdexcept>
 
 namespace SLGL::Platform {
     SDL3::Window::Window(Backend* _backend, int _width, int _height, const std::string &title) {

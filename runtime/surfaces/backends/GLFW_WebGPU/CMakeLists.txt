@@ -1,6 +1,6 @@
 include(FetchContent)
 
-find_package(glfw3 3.4 REQUIRED)
+find_package(glfw3 3.4 CONFIG REQUIRED)
 FetchContent_Declare(glfw3webgpu
     URL      https://github.com/eliemichel/glfw3webgpu/archive/refs/tags/v1.3.0-alpha.tar.gz
     URL_HASH SHA256=608386a158a22636756dd44932f25675a68f190552481f48d45d63573edd5f2b

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.31)
-project(slgl LANGUAGES CXX)
+project(slgl LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 

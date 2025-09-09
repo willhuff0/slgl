@@ -11,10 +11,8 @@ else ()
 endif ()
 
 FetchContent_Declare(webgpu
-    GIT_REPOSITORY https://github.com/eliemichel/WebGPU-distribution
-    GIT_TAG        v0.3.0-gamma
-    GIT_SHALLOW    ON
-    GIT_PROGRESS   ON
+    URL      https://github.com/eliemichel/WebGPU-distribution/releases/download/v0.3.0-gamma/WebGPU-distribution-v0.3.0-gamma.zip
+    URL_HASH SHA256=c26287b1889d0534459860aa26f97578cb971245469c9202dfe58fc3b6702dd6
 )
 FetchContent_MakeAvailable(webgpu)
 target_link_libraries(SLGL_RUNTIME_GRAPHICS PRIVATE webgpu)

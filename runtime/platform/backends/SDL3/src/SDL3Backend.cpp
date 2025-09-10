@@ -36,9 +36,11 @@ SetProcessDPIAware();
 #if defined(_WIN32)
 #pragma push_macro("CreateWindow")
 #undef CreateWindow
+#endif
     Platform::Window::Ref SDL3::Backend::CreateWindow(int width, int height, const std::string& title) {
         return std::make_shared<SDL3::Window>(this, width, height, title);
     }
+#if defined(_WIN32)
 #pragma pop_macro("CreateWindow")
 #endif
 

@@ -14,7 +14,7 @@
 using namespace wgpu;
 
 namespace SLGL::Graphics {
-    WebGPU::Backend::Backend() {
+    WebGPU::Backend::Backend(const std::vector<QueueFamily>& requestedQueues) {
         // Initialize WebGPU
         InstanceDescriptor instanceDesc = Default;
         instance = createInstance(instanceDesc);
@@ -70,17 +70,32 @@ namespace SLGL::Graphics {
         ctx.device.getLimits(&actualLimits);
 
         // Get the queue
-        queue = ctx.device.getQueue();
+        wgpu::Queue queue = ctx.device.getQueue();
+        queueFamilies.emplace_back(QueueFamily {
+            .capability = QueueFamily::Capability::Graphics | QueueFamily::Capability::Compute | QueueFamily::Capability::Transfer,
+            .count = 1,
+        }, std::vector<Queue*>{
+            queue,
+        });
 
         mipmapGenerator = std::make_unique<Graphics::MipmapGenerator>(this, mipmapGeneratorShader);
     }
 
     WebGPU::Backend::~Backend() {
-        queue.release();
+        for(auto& [_, queues] : queueFamilies) {
+            for(auto queue : queues) {
+                ((wgpu::Queue)(WGPUQueue)queue).release();
+            }
+        }
+
         adapter.release();
         instance.release();
 
         isDeviceLossIntentional = true;
+    }
+
+    const std::vector<std::pair<QueueFamily, std::vector<Queue*>>>& WebGPU::Backend::GetQueueFamilies() {
+        return queueFamilies;
     }
 
     Graphics::CommandEncoder::Ref WebGPU::Backend::CreateCommandEncoder(const std::string &label) {

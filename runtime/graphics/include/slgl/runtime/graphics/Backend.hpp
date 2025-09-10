@@ -19,11 +19,14 @@
 
 #include <memory>
 #include <vector>
+#include <optional>
 
 namespace SLGL::Graphics {
     class Backend {
     public:
         virtual ~Backend() = default;
+
+        [[nodiscard]] virtual const std::vector<std::pair<QueueFamily, std::vector<Queue*>>>& GetQueueFamilies() = 0;
 
         virtual Buffer::Builder CreateBuffer() = 0;
         virtual Sampler::Builder CreateSampler() = 0;

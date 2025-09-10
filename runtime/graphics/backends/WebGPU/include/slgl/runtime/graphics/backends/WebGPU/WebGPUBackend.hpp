@@ -9,11 +9,18 @@
 
 #include <webgpu/webgpu.hpp>
 
+#include <optional>
+#include <string>
+#include <memory>
+#include <vector>
+
 namespace SLGL::Graphics::WebGPU {
     class Backend : public Graphics::Backend {
     public:
-        Backend();
+        explicit Backend(const std::vector<QueueFamily>& requestedQueueFamilies);
         ~Backend() override;
+
+        const std::vector<std::pair<QueueFamily, std::vector<Queue*>>>& GetQueueFamilies() override;
 
         Graphics::Buffer::Builder CreateBuffer() override;
         Graphics::Sampler::Builder CreateSampler() override;
@@ -41,7 +48,8 @@ namespace SLGL::Graphics::WebGPU {
     private:
         wgpu::Instance instance;
         wgpu::Adapter adapter;
-        wgpu::Queue queue;
+
+        std::vector<std::pair<QueueFamily, std::vector<Queue*>>> queueFamilies;
 
         Context ctx;
 

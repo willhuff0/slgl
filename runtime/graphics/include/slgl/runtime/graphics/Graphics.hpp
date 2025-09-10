@@ -2,6 +2,8 @@
 
 #include "Backend.hpp"
 
+#include <vector>
+
 namespace SLGL::Graphics {
     enum class BackendType {
         DX12,
@@ -10,6 +12,7 @@ namespace SLGL::Graphics {
         WebGPU,
     };
 
-    [[nodiscard]] Backend* GetBackend(BackendType backend);
+    [[nodiscard]] Backend* GetBackend(const std::vector<QueueFamily>& queues, BackendType backend);
+    [[nodiscard]] Backend* GetBackend(const std::vector<QueueFamily>& queues);
     [[nodiscard]] Backend* GetBackend();
 }

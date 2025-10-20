@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.31)
-project(slgl LANGUAGES CXX)
+project(slgl LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # options
 option(SLGL_BUILD_GENERATOR "Build offline project/editor tools library" ON)

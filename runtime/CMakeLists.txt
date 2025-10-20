@@ -4,6 +4,7 @@ add_library(SLGL::RUNTIME ALIAS SLGL_RUNTIME)
 add_subdirectory(executable)
 add_subdirectory(platform)
 add_subdirectory(graphics)
+add_subdirectory(surfaces)
 add_subdirectory(physics)
 add_subdirectory(resource_reader)
 add_subdirectory(scene)
@@ -13,6 +14,7 @@ target_link_libraries(SLGL_RUNTIME
     INTERFACE
         SLGL::RUNTIME::PLATFORM
         SLGL::RUNTIME::GRAPHICS
+        SLGL::RUNTIME::SURFACES
         SLGL::RUNTIME::PHYSICS
         SLGL::RUNTIME::RESOURCE_READER
         SLGL::RUNTIME::SCENE

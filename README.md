@@ -2,7 +2,9 @@
 
 SLGL is a modular C++20 project that provides a thin runtime for windowing, GPU abstraction, and swapchain/surface management. The repository currently focuses on a WebGPU graphics backend with SDL3/GLFW platform backends and a minimal executable that exercises the stack.
 
-## Status Overview
+This repository is a rewrite of [slgl-old](https://github.com/willhuff0/slgl-old).
+
+## Overview
 - Platform backends: SDL3 (default ON) and GLFW (optional) implemented.
 - Graphics backend: WebGPU implemented (Dawn or wgpu-native distribution). DX12/Metal/Vulkan are placeholders in the abstraction.
 - Surfaces: Pairings implemented for SDL3↔WebGPU and GLFW↔WebGPU.

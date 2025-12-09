@@ -33,6 +33,7 @@ namespace SLGL::Graphics {
         virtual Texture::Builder CreateTexture() = 0;
         virtual Texture::Ref CreateTexture(const std::string& label, Queue* queue, const Data::Image& image, int mipLevels) = 0;
         virtual Texture::Ref CreateTexture(const std::string& label, Queue* queue, const Data::Image& image) = 0;
+        virtual uint32_t GetSurfaceTextureFormat(Texture::Format format, Texture::ColorSpace colorSpace) = 0;
         virtual BindSet::Layout::Builder CreateBindSetLayout() = 0;
         virtual ShaderModule::Source::Ref CreateShaderSource(const Data::Shader& shader) = 0;
         virtual ShaderModule::Builder CreateShaderModule() = 0;

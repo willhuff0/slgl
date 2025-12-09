@@ -16,16 +16,25 @@ namespace SLGL::Graphics {
         return usage;
     }
 
-    static int getChannelCount(wgpu::TextureFormat format) {
+    static int getStride(wgpu::TextureFormat format) {
         switch (format) {
             case wgpu::TextureFormat::R8Unorm: return 1;
             case wgpu::TextureFormat::RG8Unorm: return 2;
             case wgpu::TextureFormat::RGBA8Unorm: return 4;
             case wgpu::TextureFormat::RGBA8UnormSrgb: return 4;
+
+            case wgpu::TextureFormat::R16Float: return 1 * 2;
+            case wgpu::TextureFormat::RG16Float: return 2 * 2;
+            case wgpu::TextureFormat::RGBA16Float: return 4 * 2;
+            case wgpu::TextureFormat::R32Float: return 1 * sizeof(float);
+            case wgpu::TextureFormat::RG32Float: return 2 * sizeof(float);
+            case wgpu::TextureFormat::RGBA32Float: return 4 * sizeof(float);
+
             case wgpu::TextureFormat::BC4RUnorm: return 1;
             case wgpu::TextureFormat::BC5RGUnorm: return 2;
             case wgpu::TextureFormat::BC7RGBAUnorm: return 4;
             case wgpu::TextureFormat::BC7RGBAUnormSrgb: return 4;
+
             default: throw std::runtime_error("Unexpected texture format");
         }
     }
@@ -47,16 +56,16 @@ namespace SLGL::Graphics {
         }
     }
 
-    WebGPU::Texture::Builder::Builder(WebGPU::Context &ctx) : ctx(ctx) { }
+    WebGPU::Texture::Builder::Builder(WebGPU::Context& ctx) : ctx(ctx) { }
     Graphics::Texture::Ref WebGPU::Texture::Builder::Build(Graphics::Texture::Builder &builder) {
         wgpu::TextureDescriptor desc = wgpu::Default;
         desc.label = wgpu::StringView(builder.getLabel());
         desc.usage = convertUsage(builder.getUsage());
-        desc.size = { static_cast<uint32_t>(builder.getSize().x), static_cast<uint32_t>(builder.getSize().y), 1 };
+        desc.size = { static_cast<uint32_t>(builder.getSize().x), static_cast<uint32_t>(builder.getSize().y), static_cast<uint32_t>(builder.getSize().z) };
         desc.dimension = convertDimension(builder.getDimension());
         desc.format = convertTextureFormat(builder.getFormat(), builder.getColorSpace());
-        desc.mipLevelCount = builder.getMipLevels();
-        desc.sampleCount = builder.getSamples();
+        desc.mipLevelCount = builder.getMipLevelCount();
+        desc.sampleCount = builder.getSampleCount();
         return std::make_shared<Texture>(ctx.device.createTexture(desc), builder.getLabel());
     }
 
@@ -72,34 +81,34 @@ namespace SLGL::Graphics {
 
     wgpu::Texture WebGPU::Texture::GetHandle() { return texture; }
     const std::string &WebGPU::Texture::GetLabel() { return label; }
-    glm::ivec2 WebGPU::Texture::GetSize() { return { texture.getWidth(), texture.getHeight() }; }
+    glm::ivec3 WebGPU::Texture::GetSize() { return { texture.getWidth(), texture.getHeight(), texture.getDepthOrArrayLayers() }; }
     Graphics::Texture::Dimension WebGPU::Texture::GetDimension() { return convertDimension(texture.getDimension()); }
     Graphics::Texture::Format WebGPU::Texture::GetFormat() { return convertFormat(texture.getFormat()).first; }
     Graphics::Texture::ColorSpace WebGPU::Texture::GetColorSpace() { return convertFormat(texture.getFormat()).second; }
-    uint32_t WebGPU::Texture::GetMipLevels() { return texture.getMipLevelCount(); }
-    uint32_t WebGPU::Texture::GetSamples() { return texture.getSampleCount(); }
+    uint32_t WebGPU::Texture::GetMipLevelCount() { return texture.getMipLevelCount(); }
+    uint32_t WebGPU::Texture::GetSampleCount() { return texture.getSampleCount(); }
 
     uint32_t WebGPU::Texture::GetSurfaceFormat() {
         return texture.getFormat();
     }
 
-    void WebGPU::Texture::Write(Graphics::Queue *queue, void *src, size_t size, int mipLevel, glm::ivec2 offset, glm::ivec2 extent) {
+    void WebGPU::Texture::Write(Graphics::Queue *queue, void *src, size_t size, int mipLevel, glm::ivec3 offset, glm::ivec3 extent) {
         wgpu::TexelCopyTextureInfo dest;
         dest.texture = texture;
         dest.mipLevel = mipLevel;
-        dest.origin = { static_cast<uint32_t>(offset.x), static_cast<uint32_t>(offset.y), 0 };
+        dest.origin = { static_cast<uint32_t>(offset.x), static_cast<uint32_t>(offset.y), static_cast<uint32_t>(offset.z) };
         dest.aspect = wgpu::TextureAspect::All;
 
         wgpu::TexelCopyBufferLayout srcLayout;
         srcLayout.offset = 0;
-        srcLayout.bytesPerRow = texture.getWidth() * getChannelCount(texture.getFormat());
+        srcLayout.bytesPerRow = texture.getWidth() * getStride(texture.getFormat());
         srcLayout.rowsPerImage = texture.getHeight();
 
         ((wgpu::Queue)(WGPUQueue)queue).writeTexture(dest, src, size, srcLayout,
-                                                     { static_cast<uint32_t>(extent.x), static_cast<uint32_t>(extent.y), 1 });
+                                                     { static_cast<uint32_t>(extent.x), static_cast<uint32_t>(extent.y), static_cast<uint32_t>(extent.z) });
     }
     void WebGPU::Texture::Write(Graphics::Queue *queue, void *src, size_t size, int mipLevel) {
-        Write(queue, src, size, mipLevel, glm::ivec2(0.0f), GetSize());
+        Write(queue, src, size, mipLevel, glm::ivec3(0.0f), GetSize());
     }
     void WebGPU::Texture::Write(Graphics::Queue *queue, void *src, size_t size) {
         Write(queue, src, size, 0);
@@ -150,12 +159,12 @@ namespace SLGL::Graphics {
 
         auto result = gfx->CreateTexture()
                 .SetLabel(label)
-                .SetSize({ image.width, image.height })
+                .SetSize({image.width, image.height, 1})
                 .SetFormat(convertResFormat(image.channels, image.compressionMode))
                 .SetColorSpace(convertResColorSpace(image.colorSpace))
                 .SetUsage(Graphics::Texture::Usage::Write | Graphics::Texture::Usage::Texture |
-                    (mipLevels > 1 ? Graphics::Texture::Usage::RenderTarget : Graphics::Texture::Usage::None))
-                .SetMipLevels(mipLevels)
+                          (mipLevels > 1 ? Graphics::Texture::Usage::RenderTarget : Graphics::Texture::Usage::None))
+                .SetMipLevelCount(mipLevels)
                 .Build();
 
         if (image.channels == 3) {

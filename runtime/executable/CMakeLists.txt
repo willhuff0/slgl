@@ -10,6 +10,7 @@ target_link_libraries(SLGL_RUNTIME_EXECUTABLE
     PUBLIC
         SLGL::COMMON
         SLGL::RUNTIME
+        SLGL::RUNTIME::GAME
     PRIVATE
         slgl_warnings
 )

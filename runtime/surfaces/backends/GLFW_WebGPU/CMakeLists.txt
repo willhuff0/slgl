@@ -6,6 +6,7 @@ FetchContent_Declare(glfw3webgpu
     URL_HASH SHA256=608386a158a22636756dd44932f25675a68f190552481f48d45d63573edd5f2b
 )
 FetchContent_MakeAvailable(glfw3webgpu)
+target_compile_definitions(glfw3webgpu PUBLIC GLFW_EXPOSE_NATIVE_WIN32)
 target_link_libraries(SLGL_RUNTIME_SURFACES PRIVATE glfw3webgpu)
 
 target_sources(SLGL_RUNTIME_SURFACES

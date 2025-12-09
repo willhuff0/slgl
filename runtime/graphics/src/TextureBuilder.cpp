@@ -7,21 +7,21 @@ namespace SLGL::Graphics {
 
     Texture::Builder& Texture::Builder::SetLabel(const std::string &newLabel) { label = newLabel; return *this; }
     Texture::Builder& Texture::Builder::SetUsage(Usage::Flags newUsage) { usage = newUsage; return *this; }
-    Texture::Builder& Texture::Builder::SetSize(glm::ivec2 newSize) { size = newSize; return *this; }
+    Texture::Builder& Texture::Builder::SetSize(glm::ivec3 newSize) { size = newSize; return *this; }
     Texture::Builder& Texture::Builder::SetDimension(Dimension newDimension) { dimension = newDimension; return *this; }
     Texture::Builder& Texture::Builder::SetFormat(Format newFormat) { format = newFormat; return *this; }
     Texture::Builder& Texture::Builder::SetColorSpace(ColorSpace newColorSpace) { colorSpace = newColorSpace; return *this; }
-    Texture::Builder& Texture::Builder::SetMipLevels(uint32_t newMipLevels) { mipLevels = newMipLevels; return *this; }
-    Texture::Builder& Texture::Builder::SetSamples(uint32_t newSamples) { samples = newSamples; return *this; }
+    Texture::Builder& Texture::Builder::SetMipLevelCount(uint32_t newMipLevelCount) { mipLevelCount = newMipLevelCount; return *this; }
+    Texture::Builder& Texture::Builder::SetSampleCount(uint32_t newSampleCount) { sampleCount = newSampleCount; return *this; }
 
     const std::string &Texture::Builder::getLabel() const { return label; }
     const Texture::Usage::Flags &Texture::Builder::getUsage() const { return usage; }
-    const glm::ivec2 &Texture::Builder::getSize() const { return size; }
+    const glm::ivec3 &Texture::Builder::getSize() const { return size; }
     Texture::Dimension Texture::Builder::getDimension() const { return dimension; }
     Texture::Format Texture::Builder::getFormat() const { return format; }
     Texture::ColorSpace Texture::Builder::getColorSpace() const { return colorSpace; }
-    uint32_t Texture::Builder::getMipLevels() const { return mipLevels; }
-    uint32_t Texture::Builder::getSamples() const { return samples; }
+    uint32_t Texture::Builder::getMipLevelCount() const { return mipLevelCount; }
+    uint32_t Texture::Builder::getSampleCount() const { return sampleCount; }
 
     Texture::Ref Texture::Builder::Build() { return impl->Build(*this); }
 

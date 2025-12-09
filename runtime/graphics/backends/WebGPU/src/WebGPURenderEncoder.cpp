@@ -21,7 +21,7 @@ namespace SLGL::Graphics {
         renderPass.setPipeline(dynamic_cast<ShaderPipeline::Render*>(pipeline.get())->GetHandle());
     }
 
-    void WebGPU::RenderEncoder::SetBindSet(uint32_t index, Graphics::BindSet::Ref bindSet, const std::vector<uint32_t> &dynamicOffset) {
+    void WebGPU::RenderEncoder::SetBindSet(uint32_t index, Graphics::BindSet::Ref bindSet, const std::vector<uint32_t>& dynamicOffset) {
         renderPass.setBindGroup(index, dynamic_cast<BindSet*>(bindSet.get())->GetHandle(), dynamicOffset);
     }
     void WebGPU::RenderEncoder::SetBindSet(uint32_t index, Graphics::BindSet::Ref bindSet) {

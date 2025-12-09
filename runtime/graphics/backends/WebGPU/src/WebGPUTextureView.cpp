@@ -14,19 +14,20 @@ namespace SLGL::Graphics {
         }
     }
 
-    Graphics::Texture::View::Ref WebGPU::Texture::View::Builder::Build(Graphics::Texture::View::Builder &builder) {
+    Graphics::Texture::View::Ref WebGPU::Texture::View::Builder::Build(Graphics::Texture::View::Builder& builder) {
+        auto textureHandle = dynamic_cast<WebGPU::Texture*>(builder.getTexture().get())->GetHandle();
         wgpu::TextureViewDescriptor desc = wgpu::Default;
-        desc.label = wgpu::StringView(builder.getLabel());
-        desc.format = dynamic_cast<WebGPU::Texture*>(builder.getTexture().get())->GetHandle().getFormat();
-        desc.dimension = convertTextureViewDimension(builder.getDimension());
+        std::string labelOrDefault = builder.getLabel().empty() ? builder.getTexture()->GetLabel() + " View" : builder.getLabel();
+        desc.label = wgpu::StringView(labelOrDefault);
+        desc.format = textureHandle.getFormat();
+        desc.dimension = builder.getDimension() == Texture::View::Dimension::SameAsTexture ? convertTextureToViewDimension(textureHandle.getDimension()) : convertTextureViewDimension(builder.getDimension());
         desc.baseMipLevel = builder.getBaseMipLevel();
-        desc.mipLevelCount = builder.getMipLevelCount();
+        desc.mipLevelCount = builder.getMipLevelCount() == 0 ? textureHandle.getMipLevelCount() : builder.getMipLevelCount();
         desc.baseArrayLayer = builder.getBaseArrayLayer();
-        desc.arrayLayerCount = builder.getArrayLayerCount();
+        desc.arrayLayerCount = builder.getArrayLayerCount() == 0 ? textureHandle.getDepthOrArrayLayers() : builder.getArrayLayerCount();
         desc.aspect = convertAspect(builder.getAspect());
-        desc.usage = dynamic_cast<WebGPU::Texture*>(builder.getTexture().get())->GetHandle().getUsage();
-        return std::make_shared<View>(dynamic_cast<WebGPU::Texture*>(builder.getTexture().get())->GetHandle().createView(desc),
-                                      builder.getLabel());
+        desc.usage = textureHandle.getUsage();
+        return std::make_shared<View>(textureHandle.createView(desc), labelOrDefault);
     }
 
     WebGPU::Texture::View::View(wgpu::TextureView textureView, std::string label) :

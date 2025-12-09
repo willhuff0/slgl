@@ -152,7 +152,7 @@ namespace SLGL::Graphics::ShaderPipeline {
 
             Format format = Format::Depth24Plus;
             bool depthWrite = true;
-            CompareMode depthCompare = CompareMode::Less;
+            CompareMode depthCompare = CompareMode::LessEqual;
             Face stencilFront;
             Face stencilBack;
             uint32_t stencilReadMask = 0x00000000;

@@ -8,6 +8,7 @@ namespace SLGL::Graphics {
     BindSet::Builder& BindSet::Builder::SetLabel(const std::string &newLabel) { label = newLabel; return *this; }
     BindSet::Builder& BindSet::Builder::SetEntry(uint32_t binding, const BindSet::Entry& entry) {
         assert(layout->GetEntries().find(binding) != layout->GetEntries().end() && "Binding must be in layout!");
+        if (entries.contains(binding)) entries.erase(binding);
         entries.emplace(binding, entry);
         return *this;
     }

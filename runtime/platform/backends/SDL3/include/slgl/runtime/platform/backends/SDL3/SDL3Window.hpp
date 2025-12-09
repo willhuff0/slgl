@@ -22,6 +22,8 @@ namespace SLGL::Platform::SDL3 {
         [[nodiscard]] int GetWidth() const override;
         [[nodiscard]] int GetHeight() const override;
 
+        [[nodiscard]] void* GetNativeHandle() const override;
+
         void SetTitle(const std::string& title) override;
 
         [[nodiscard]] SDL_Window* getHandle() const;

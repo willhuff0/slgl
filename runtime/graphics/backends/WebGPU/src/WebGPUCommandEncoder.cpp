@@ -29,6 +29,7 @@ namespace SLGL::Graphics {
 
     static wgpu::LoadOp convertLoadOp(Graphics::CommandEncoder::RenderPass::LoadOp loadOp) {
         switch (loadOp) {
+            case Graphics::CommandEncoder::RenderPass::LoadOp::None: return wgpu::LoadOp::Undefined;
             case Graphics::CommandEncoder::RenderPass::LoadOp::Clear: return wgpu::LoadOp::Clear;
             case Graphics::CommandEncoder::RenderPass::LoadOp::Load: return wgpu::LoadOp::Load;
             default: throw std::runtime_error("Unexpected load op");
@@ -37,6 +38,7 @@ namespace SLGL::Graphics {
 
     static wgpu::StoreOp convertStoreOp(Graphics::CommandEncoder::RenderPass::StoreOp storeOp) {
         switch (storeOp) {
+            case Graphics::CommandEncoder::RenderPass::StoreOp::None: return wgpu::StoreOp::Undefined;
             case Graphics::CommandEncoder::RenderPass::StoreOp::Store: return wgpu::StoreOp::Store;
             case Graphics::CommandEncoder::RenderPass::StoreOp::Discard: return wgpu::StoreOp::Discard;
             default: throw std::runtime_error("Unexpected store op");
@@ -65,7 +67,7 @@ namespace SLGL::Graphics {
         return result;
     }
 
-    void WebGPU::CommandEncoder::EncodeRenderPass(const Graphics::CommandEncoder::RenderPass &renderPass, const std::function<void(Graphics::RenderEncoder*)>& func) {
+    void WebGPU::CommandEncoder::EncodeRenderPass(const Graphics::CommandEncoder::RenderPass& renderPass, const std::function<void(Graphics::RenderEncoder*)>& func) {
         wgpu::RenderPassDescriptor desc;
         desc.label = wgpu::StringView(renderPass.label);
         desc.colorAttachmentCount = renderPass.colorAttachments.size();

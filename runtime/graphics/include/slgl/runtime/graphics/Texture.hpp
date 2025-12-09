@@ -19,6 +19,7 @@ namespace SLGL::Graphics {
             typedef std::shared_ptr<View> Ref;
 
             enum class Dimension : uint8_t {
+                SameAsTexture,
                 _1D,
                 _2D,
                 _2DArray,
@@ -50,7 +51,7 @@ namespace SLGL::Graphics {
                 Builder& SetArrayLayerCount(uint32_t newArrayLayoutCount);
                 Builder& SetAspect(Aspect newAspect);
 
-                [[nodiscard]] const std::string &getLabel() const;
+                [[nodiscard]] const std::string& getLabel() const;
                 [[nodiscard]] Texture::Ref getTexture() const;
                 [[nodiscard]] Dimension getDimension() const;
                 [[nodiscard]] uint32_t getBaseMipLevel() const;
@@ -63,13 +64,13 @@ namespace SLGL::Graphics {
 
             private:
                 Impl* impl;
-                std::string label = "SLGL Texture View";
+                std::string label; // Defaults to value from texture + " View"
                 Texture::Ref texture;
-                Dimension dimension = Dimension::_2D;
+                Dimension dimension = Dimension::SameAsTexture; // Defaults to value from texture
                 uint32_t baseMipLevel = 0;
-                uint32_t mipLevelCount = 1;
+                uint32_t mipLevelCount = 0; // Defaults to value from texture
                 uint32_t baseArrayLayer = 0;
-                uint32_t arrayLayerCount = 1;
+                uint32_t arrayLayerCount = 0; // Defaults to value from texture
                 Aspect aspect = Aspect::All;
             };
 
@@ -100,9 +101,24 @@ namespace SLGL::Graphics {
             R8,
             RG8,
             RGBA8,
+
+            R16Float,
+            RG16Float,
+            RGBA16Float,
+            R32Float,
+            RG32Float,
+            RGBA32Float,
+
             BC4R,
             BC5RG,
             BC7RGBA,
+
+            Stencil8,
+            Depth16Unorm,
+            Depth24Plus,
+            Depth24PlusStencil8,
+            Depth32Float,
+            Depth32FloatStencil8,
         };
         enum class ColorSpace : uint8_t {
             Linear,
@@ -121,21 +137,21 @@ namespace SLGL::Graphics {
 
             Builder& SetLabel(const std::string& newLabel);
             Builder& SetUsage(Usage::Flags newUsage);
-            Builder& SetSize(glm::ivec2 newSize);
+            Builder& SetSize(glm::ivec3 newSize);
             Builder& SetDimension(Dimension newDimension);
             Builder& SetFormat(Format newFormat);
             Builder& SetColorSpace(ColorSpace newColorSpace);
-            Builder& SetMipLevels(uint32_t newMipLevels);
-            Builder& SetSamples(uint32_t newSamples);
+            Builder& SetMipLevelCount(uint32_t newMipLevelCount);
+            Builder& SetSampleCount(uint32_t newSampleCount);
 
-            [[nodiscard]] const std::string &getLabel() const;
-            [[nodiscard]] const Usage::Flags &getUsage() const;
-            [[nodiscard]] const glm::ivec2 &getSize() const;
+            [[nodiscard]] const std::string& getLabel() const;
+            [[nodiscard]] const Usage::Flags& getUsage() const;
+            [[nodiscard]] const glm::ivec3& getSize() const;
             [[nodiscard]] Dimension getDimension() const;
             [[nodiscard]] Format getFormat() const;
             [[nodiscard]] ColorSpace getColorSpace() const;
-            [[nodiscard]] uint32_t getMipLevels() const;
-            [[nodiscard]] uint32_t getSamples() const;
+            [[nodiscard]] uint32_t getMipLevelCount() const;
+            [[nodiscard]] uint32_t getSampleCount() const;
 
             Ref Build();
 
@@ -143,12 +159,12 @@ namespace SLGL::Graphics {
             Impl* impl;
             std::string label = "SLGL Texture";
             Usage::Flags usage = Usage::Write | Usage::Texture;
-            glm::ivec2 size = { 0, 0 };
+            glm::ivec3 size = { 0, 0, 0 };
             Dimension dimension = Dimension::_2D;
             Format format = Format::RGBA8;
             ColorSpace colorSpace = ColorSpace::Linear;
-            uint32_t mipLevels = 1;
-            uint32_t samples = 1;
+            uint32_t mipLevelCount = 1;
+            uint32_t sampleCount = 1;
         };
 
         virtual ~Texture() = default;
@@ -156,16 +172,16 @@ namespace SLGL::Graphics {
         virtual void SetLabel(const std::string& newLabel) = 0;
 
         virtual const std::string& GetLabel() = 0;
-        virtual glm::ivec2 GetSize() = 0;
+        virtual glm::ivec3 GetSize() = 0;
         virtual Dimension GetDimension() = 0;
         virtual Format GetFormat() = 0;
         virtual ColorSpace GetColorSpace() = 0;
-        virtual uint32_t GetMipLevels() = 0;
-        virtual uint32_t GetSamples() = 0;
+        virtual uint32_t GetMipLevelCount() = 0;
+        virtual uint32_t GetSampleCount() = 0;
 
         virtual uint32_t GetSurfaceFormat() = 0;
 
-        virtual void Write(Queue* queue, void *src, size_t size, int mipLevel, glm::ivec2 offset, glm::ivec2 extent) = 0;
+        virtual void Write(Queue* queue, void *src, size_t size, int mipLevel, glm::ivec3 offset, glm::ivec3 extent) = 0;
         virtual void Write(Queue* queue, void *src, size_t size, int mipLevel) = 0;
         virtual void Write(Queue* queue, void *src, size_t size) = 0;
 

@@ -54,7 +54,7 @@ namespace SLGL::Graphics {
     }
 
     WebGPU::BindSet::Layout::Builder::Builder(WebGPU::Context &ctx) : ctx(ctx) { }
-    Graphics::BindSet::Layout::Ref WebGPU::BindSet::Layout::Builder::Build(Graphics::BindSet::Layout::Builder &builder) {
+    Graphics::BindSet::Layout::Ref WebGPU::BindSet::Layout::Builder::Build(Graphics::BindSet::Layout::Builder& builder) {
         wgpu::BindGroupLayoutDescriptor desc = wgpu::Default;
         desc.label = wgpu::StringView(builder.getLabel());
         desc.entryCount = builder.getEntries().size();

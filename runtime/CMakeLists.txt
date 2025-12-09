@@ -2,6 +2,7 @@ add_library(SLGL_RUNTIME INTERFACE)
 add_library(SLGL::RUNTIME ALIAS SLGL_RUNTIME)
 
 add_subdirectory(executable)
+add_subdirectory(game)
 add_subdirectory(platform)
 add_subdirectory(graphics)
 add_subdirectory(surfaces)

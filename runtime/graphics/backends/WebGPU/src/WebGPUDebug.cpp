@@ -13,4 +13,16 @@ namespace SLGL::Graphics {
     void WebGPU::DebugPrintPresentMode(WGPUPresentMode presentMode) {
         std::cout << "Present: " << wgpuPresentModeNames.at(presentMode) << std::endl;
     }
+
+    void WebGPU::DebugPrintSurfaceFormat(WGPUTextureFormat textureFormat) {
+        std::cout << "Surface: " << wgpuTextureFormatNames.at(textureFormat) << std::endl;
+    }
+
+    void WebGPU::DebugPrintImplementation() {
+#if defined(WEBGPU_BACKEND_DAWN)
+        std::cout << "Backend: WebGPU - - - - - Dawn" << std::endl;
+#elif defined(WEBGPU_BACKEND_WGPU)
+        std::cout << "Backend: WebGPU - - - - - wgpu" << std::endl;
+#endif
+    }
 }

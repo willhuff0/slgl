@@ -15,6 +15,10 @@ using namespace wgpu;
 
 namespace SLGL::Graphics {
     WebGPU::Backend::Backend(const std::vector<QueueFamily>& requestedQueues) {
+#if !defined(NDEBUG)
+        DebugPrintImplementation();
+#endif
+
         // Initialize WebGPU
         InstanceDescriptor instanceDesc = Default;
         instance = createInstance(instanceDesc);
@@ -23,6 +27,7 @@ namespace SLGL::Graphics {
         RequestAdapterOptions adapterOpts = Default;
         adapterOpts.featureLevel = FeatureLevel::Core;
         adapterOpts.powerPreference = PowerPreference::HighPerformance;
+//        adapterOpts.backendType = BackendType::Vulkan;
         adapter = instance.requestAdapter(adapterOpts);
 
     #if !defined(NDEBUG)

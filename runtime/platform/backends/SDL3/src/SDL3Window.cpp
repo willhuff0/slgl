@@ -44,6 +44,10 @@ namespace SLGL::Platform {
         return height;
     }
 
+    void* SDL3::Window::GetNativeHandle() const {
+        return handle;
+    }
+
     void SDL3::Window::SetTitle(const std::string& title) {
         SDL_SetWindowTitle(handle, title.c_str());
     }

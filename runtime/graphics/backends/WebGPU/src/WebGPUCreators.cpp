@@ -7,6 +7,7 @@
 #include "backends/WebGPU/WebGPUShaderModule.hpp"
 #include "backends/WebGPU/WebGPUShaderPipelineLayout.hpp"
 #include "backends/WebGPU/WebGPUShaderRenderPipeline.hpp"
+#include "backends/WebGPU/WebGPUConverters.hpp"
 
 #include <string>
 
@@ -31,6 +32,9 @@ namespace SLGL::Graphics {
     }
     Graphics::Texture::Ref WebGPU::Backend::CreateTexture(const std::string& label, Graphics::Queue* _queue, const Data::Image& image) {
         return WebGPU::Texture::FromData(this, _queue, label, image);
+    }
+    uint32_t WebGPU::Backend::GetSurfaceTextureFormat(Texture::Format format, Texture::ColorSpace colorSpace) {
+        return WebGPU::convertTextureFormat(format, colorSpace);
     }
 
     Graphics::BindSet::Layout::Builder WebGPU::Backend::CreateBindSetLayout() {

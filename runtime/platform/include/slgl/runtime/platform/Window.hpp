@@ -20,6 +20,8 @@ namespace SLGL::Platform {
         [[nodiscard]] virtual int GetWidth() const = 0;
         [[nodiscard]] virtual int GetHeight() const = 0;
 
+        [[nodiscard]] virtual void* GetNativeHandle() const = 0;
+
         virtual void SetTitle(const std::string& title) = 0;
     };
 }

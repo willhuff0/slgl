@@ -13,7 +13,7 @@ namespace SLGL::Graphics::WebGPU {
 
         void SetPipeline(Graphics::ShaderPipeline::Render::Ref pipeline) override;
 
-        void SetBindSet(uint32_t index, Graphics::BindSet::Ref bindSet, const std::vector<uint32_t> &dynamicOffset) override;
+        void SetBindSet(uint32_t index, Graphics::BindSet::Ref bindSet, const std::vector<uint32_t>& dynamicOffset) override;
         void SetBindSet(uint32_t index, Graphics::BindSet::Ref bindSet) override;
 
         void SetIndexBuffer(Graphics::Buffer::Ref buffer, IndexFormat format, uint64_t offset, uint64_t size) override;

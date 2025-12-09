@@ -51,16 +51,16 @@ namespace SLGL::Graphics::WebGPU {
 
         wgpu::Texture GetHandle();
         const std::string &GetLabel() override;
-        glm::ivec2 GetSize() override;
+        glm::ivec3 GetSize() override;
         Dimension GetDimension() override;
         Format GetFormat() override;
         ColorSpace GetColorSpace() override;
-        uint32_t GetMipLevels() override;
-        uint32_t GetSamples() override;
+        uint32_t GetMipLevelCount() override;
+        uint32_t GetSampleCount() override;
 
         uint32_t GetSurfaceFormat() override;
 
-        void Write(Graphics::Queue *queue, void *src, size_t size, int mipLevel, glm::ivec2 offset, glm::ivec2 extent) override;
+        void Write(Graphics::Queue *queue, void *src, size_t size, int mipLevel, glm::ivec3 offset, glm::ivec3 extent) override;
         void Write(Graphics::Queue *queue, void *src, size_t size, int mipLevel) override;
         void Write(Graphics::Queue *queue, void *src, size_t size) override;
 

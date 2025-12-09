@@ -70,10 +70,10 @@ namespace SLGL::Graphics {
 
         private:
             Impl* impl;
-            std::string label = "SLGL Texture";
-            AddressMode addressModeU = AddressMode::Repeat;
-            AddressMode addressModeV = AddressMode::Repeat;
-            AddressMode addressModeW = AddressMode::Repeat;
+            std::string label = "SLGL Sampler";
+            AddressMode addressModeU = AddressMode::Clamp;
+            AddressMode addressModeV = AddressMode::Clamp;
+            AddressMode addressModeW = AddressMode::Clamp;
             FilterMode magFilter = FilterMode::Linear;
             FilterMode minFilter = FilterMode::Linear;
             FilterMode mipmapFilter = FilterMode::Linear;

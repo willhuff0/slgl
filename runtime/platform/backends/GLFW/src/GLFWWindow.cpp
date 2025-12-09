@@ -40,6 +40,10 @@ namespace SLGL::Platform {
         return height;
     }
 
+    void* GLFW::Window::GetNativeHandle() const {
+        return handle;
+    }
+
     void GLFW::Window::SetTitle(const std::string& title) {
         glfwSetWindowTitle(handle, title.c_str());
     }

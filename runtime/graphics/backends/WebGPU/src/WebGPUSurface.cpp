@@ -15,9 +15,9 @@ namespace SLGL::Graphics {
             surfaceFormats.insert(capabilities.formats[i]);
         }
 
-        // Prioritize SRGB formats
-        if (surfaceFormats.contains(wgpu::TextureFormat::RGBA8UnormSrgb)) return wgpu::TextureFormat::RGBA8UnormSrgb;
-        if (surfaceFormats.contains(wgpu::TextureFormat::BGRA8UnormSrgb)) return wgpu::TextureFormat::BGRA8UnormSrgb;
+        // Deprioritize SRGB formats
+        if (surfaceFormats.contains(wgpu::TextureFormat::RGBA8UnormSrgb) && surfaceFormats.contains(wgpu::TextureFormat::RGBA8Unorm)) return wgpu::TextureFormat::RGBA8Unorm;
+        if (surfaceFormats.contains(wgpu::TextureFormat::BGRA8UnormSrgb) && surfaceFormats.contains(wgpu::TextureFormat::BGRA8Unorm)) return wgpu::TextureFormat::BGRA8Unorm;
 
         // Fallback to adapter preferred format
         return capabilities.formats[0];
@@ -46,7 +46,7 @@ namespace SLGL::Graphics {
         handle.getCapabilities(adapter, &capabilities);
 
         config.usage = wgpu::TextureUsage::RenderAttachment;
-        config.width = window->GetHeight();
+        config.width = window->GetWidth();
         config.height = window->GetHeight();
         config.format = getBestSurfaceFormat(capabilities);
         config.viewFormatCount = 0;
@@ -56,6 +56,7 @@ namespace SLGL::Graphics {
         config.presentMode = getBestPresentMode(capabilities, vsync);
 #if !defined(NDEBUG)
         DebugPrintPresentMode(config.presentMode);
+        DebugPrintSurfaceFormat(config.format);
         std::cout << std::endl;
 #endif
         handle.configure(config);

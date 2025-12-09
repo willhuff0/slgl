@@ -12,5 +12,7 @@ namespace SLGL::Graphics::WebGPU {
     wgpu::TextureFormat convertTextureFormat(Graphics::Texture::Format format, Graphics::Texture::ColorSpace colorSpace);
     std::pair<Graphics::Texture::Format, Graphics::Texture::ColorSpace> convertFormat(wgpu::TextureFormat format);
 
+    wgpu::TextureViewDimension convertTextureToViewDimension(wgpu::TextureDimension dimension);
+
     wgpu::OptionalBool convertOptionalBool(bool value);
 }

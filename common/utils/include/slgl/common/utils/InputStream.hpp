@@ -45,10 +45,10 @@ public:
 
 class InputStream {
 public:
-    InputStream(std::istream& source, std::streamsize limit = std::numeric_limits<std::streamsize>::max());
+    explicit InputStream(std::istream& source, std::streamsize limit = std::numeric_limits<std::streamsize>::max());
 
-    std::streamsize GetBytesRead() const;
-    std::streamsize GetLimit() const;
+    [[nodiscard]] std::streamsize GetBytesRead() const;
+    [[nodiscard]] std::streamsize GetLimit() const;
 
     void Read(char* dest, std::streamsize count);
 

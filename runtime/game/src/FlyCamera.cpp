@@ -80,7 +80,7 @@ void FlyCamera::Tick() {
 
     if (glfwGetKey(window, GLFW_KEY_X)) yaw = 0.0f;
     if (glfwGetKey(window, GLFW_KEY_Z)) yaw = 90.0f;
-    if (glfwGetKey(window, GLFW_KEY_Y)) pitch = 89.99f;
+    if (glfwGetKey(window, GLFW_KEY_Y)) pitch = 89.9f;
 
     glm::vec3 forward;
     forward.x = std::cos(glm::radians(pitch)) * std::cos(glm::radians(yaw));
@@ -107,7 +107,7 @@ void FlyCamera::Tick() {
     viewMat = glm::lookAt(pos, pos + forward, glm::vec3(0.0f, 1.0f, 0.0f));
 
     float nearClip = 0.1f;
-    float farClip = 500.0f;
+    float farClip = 5000.0f;
     projMat = glm::perspective(FOV, aspectRatio, nearClip, farClip);
 
     scrollDelta = 0.0;

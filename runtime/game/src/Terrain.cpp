@@ -101,8 +101,8 @@ fn GeometrySmith(N: vec3f, V: vec3f, L: vec3f, roughness: f32) -> f32 {
 fn fs_main(input: VertexOutput) -> @location(0) vec4f {
     let texCoord = vec2f(input.worldPosition.x, input.worldPosition.z) * terrainUniforms.tiling;
     let albedo = textureSample(u_albedoTexture, u_sampler, texCoord).rgb;
-    let metallic = 0.9;// textureSample(u_metallicTexture, u_sampler, texCoord).r;
-    let roughness = 0.1;//textureSample(u_roughnessTexture, u_sampler, texCoord).r;
+    let metallic = textureSample(u_metallicTexture, u_sampler, texCoord).r;
+    let roughness = textureSample(u_roughnessTexture, u_sampler, texCoord).r;
     let ao = textureSample(u_aoTexture, u_sampler, texCoord).r;
 
     var F0 = vec3f(0.04);
@@ -167,7 +167,7 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4f {
 }
 )";
 
-const int viewDistance = 8;
+const int viewDistance = 32;
 const float cellSize = 1.0f;
 const int chunkSize = 32;
 const int indexCount = chunkSize * chunkSize * 6;

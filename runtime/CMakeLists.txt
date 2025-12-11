@@ -7,7 +7,7 @@ add_subdirectory(platform)
 add_subdirectory(graphics)
 add_subdirectory(surfaces)
 add_subdirectory(physics)
-add_subdirectory(resource_reader)
+add_subdirectory(resources)
 add_subdirectory(scene)
 add_subdirectory(simulation)
 
@@ -17,7 +17,7 @@ target_link_libraries(SLGL_RUNTIME
         SLGL::RUNTIME::GRAPHICS
         SLGL::RUNTIME::SURFACES
         SLGL::RUNTIME::PHYSICS
-        SLGL::RUNTIME::RESOURCE_READER
+        SLGL::RUNTIME::RESOURCES
         SLGL::RUNTIME::SCENE
         SLGL::RUNTIME::SIMULATION
 )

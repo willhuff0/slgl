@@ -14,7 +14,7 @@ target_sources(SLGL_RUNTIME_SCENE
 target_link_libraries(SLGL_RUNTIME_SCENE
     PUBLIC
         SLGL::RUNTIME::GRAPHICS
-        SLGL::RUNTIME::RESOURCE_READER
+        SLGL::RUNTIME::RESOURCES
     PRIVATE
         slgl_warnings
 )

@@ -11,6 +11,7 @@ target_sources(SLGL_COMMON_RESOURCES
         BASE_DIRS include
         FILES
             include/slgl/common/resources/Resource.hpp
+            include/slgl/common/resources/Model.hpp
 )
 
 target_link_libraries(SLGL_COMMON_RESOURCES

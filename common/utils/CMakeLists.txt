@@ -16,7 +16,16 @@ target_sources(SLGL_COMMON_UTILS
             include/slgl/common/utils/Serialization.hpp
 )
 
-find_package(stduuid CONFIG REQUIRED)
+if (APPLE)
+    include(FetchContent)
+    FetchContent_Declare(stduuid
+        URL      https://github.com/mariusbancila/stduuid/archive/refs/tags/v1.2.3.zip
+        URL_HASH SHA256=0f867768ce55f2d8fa361be82f87f0ea5e51438bc47ca30cd92c9fd8b014e84e
+    )
+    FetchContent_MakeAvailable(stduuid)
+else ()
+    find_package(stduuid CONFIG REQUIRED)
+endif ()
 
 target_link_libraries(SLGL_COMMON_UTILS
     PUBLIC

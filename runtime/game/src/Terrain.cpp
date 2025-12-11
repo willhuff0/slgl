@@ -160,14 +160,11 @@ fn fs_main(input: VertexOutput) -> @location(0) vec4f {
 
     var color = ambient + Lo;
 
-//    color = 1.0 - exp(-color * 1.2);
-//    color = pow(color, vec3f(1.0 / 2.2));
-
     return vec4f(color, 1.0);
 }
 )";
 
-const int viewDistance = 32;
+const int viewDistance = 12;
 const float cellSize = 1.0f;
 const int chunkSize = 32;
 const int indexCount = chunkSize * chunkSize * 6;

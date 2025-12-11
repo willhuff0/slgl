@@ -799,9 +799,6 @@ fn vs_main(in: VertexInput) -> VertexOutput {
 fn fs_main(in: VertexOutput) -> @location(0) vec4f {
     var color = textureSampleLevel(u_cubeMap, u_sampler, in.localPosition, 7).rgb;
 
-//    color = color / (color + vec3f(1.0));
-//    color = pow(color, vec3f(1.0 / 2.2));
-
     return vec4f(color, 1.0);
 }
 )";

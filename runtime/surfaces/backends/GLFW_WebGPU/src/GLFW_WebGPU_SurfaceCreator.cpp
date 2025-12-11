@@ -7,6 +7,7 @@
 #include <glfw3webgpu.h>
 
 #include <memory>
+#include <stdexcept>
 
 namespace SLGL::Surfaces::GLFW_WebGPU {
     Graphics::Surface::Ref CreateSurface(Graphics::Backend* baseGfx, Platform::Window::Ref baseWindow, bool vsync) {
@@ -14,6 +15,9 @@ namespace SLGL::Surfaces::GLFW_WebGPU {
         auto window = std::dynamic_pointer_cast<Platform::GLFW::Window>(baseWindow);
 
         auto handle = glfwCreateWindowWGPUSurface(gfx->getInstance(), window->getHandle());
+        if (handle == nullptr) {
+            throw std::runtime_error("Failed to create native glfw surface!");
+        }
 
         return std::make_shared<Graphics::WebGPU::Surface>(window, handle, vsync,
                                                            gfx->getAdapter(), gfx->getDevice());

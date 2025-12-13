@@ -22,9 +22,11 @@ private:
     Platform::Backend* platform;
     Platform::Window::Ref window;
     Graphics::Backend* gfx;
+
     Graphics::Surface::Ref surface;
-    Graphics::Texture::View::Ref depthTextureView;
     glm::ivec3 surfaceSize = glm::ivec3(0);
+    Graphics::Texture::View::Ref depthTextureView;
+    Graphics::Texture::View::Ref multisampleTextureView;
 
     FlyCamera flyCamera;
     std::unique_ptr<PostProcessing> postProcessing = nullptr;

@@ -6,6 +6,8 @@
 
 #include <slgl/runtime/surfaces/Surfaces.hpp>
 
+#include <decs/Decs.hpp>
+
 #include <utility>
 
 Game::Game(Platform::Backend* platform, Platform::Window::Ref window, Graphics::Backend* gfx, Graphics::Surface::Ref surface)
@@ -27,6 +29,9 @@ void Game::MainLoop() {
     flyCamera.Tick();
     terrain->Tick(flyCamera.GetPos());
 
+    GetDecs()->ExecuteDeferredFunctions();
+    GetDecs()->IterateSystems();
+
     // Draw
 
     // Update render textures if surface size changed
@@ -35,12 +40,19 @@ void Game::MainLoop() {
 
         depthTextureView = GetGFX()->CreateTexture()
             .SetLabel("Depth Texture")
+            .SetUsage(Texture::Usage::RenderTarget)
             .SetFormat(Texture::Format::Depth24Plus)
+            .SetSampleCount(GetMultisampleCount())
             .SetSize(surfaceSize)
-            .SetUsage(Texture::Usage::RenderTarget | Texture::Usage::Write)
-            .Build()
-            ->CreateView()
-            .Build();
+            .Build()->CreateView().Build();
+
+        multisampleTextureView = GetGFX()->CreateTexture()
+            .SetLabel("Pre Post Processing Multisample Render Texture")
+            .SetUsage(Texture::Usage::RenderTarget)
+            .SetFormat(GetRenderTextureFormat())
+            .SetSampleCount(GetMultisampleCount())
+            .SetSize(surfaceSize)
+            .Build()->CreateView().Build();
 
         postProcessing->ResizeRenderTexture(glm::ivec2(surfaceSize.x, surfaceSize.y));
     }
@@ -55,12 +67,13 @@ void Game::MainLoop() {
     auto commandEncoder = GetGFX()->CreateCommandEncoder("Main");
 
     // Main Render Pass
-    auto prePostProcessingRenderTextureView = postProcessing->GetPrePostProcessingRenderTextureView();
+    auto postProcessingInputRenderTextureView = postProcessing->GetPostProcessingInputTextureView();
     CommandEncoder::RenderPass renderPass {
         .label = "Main",
         .colorAttachments = {
             CommandEncoder::RenderPass::ColorAttachment {
-                .textureView = prePostProcessingRenderTextureView,
+                .textureView = multisampleTextureView,
+                .resolveTextureView = postProcessingInputRenderTextureView,
                 .clearColor = glm::vec4(0.0, 0.0, 0.0, 1.0),
             },
         },

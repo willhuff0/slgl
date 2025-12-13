@@ -24,7 +24,7 @@ public:
     void ResizeRenderTexture(glm::ivec2 newSize);
     void SetUniforms(PostProcessingUniforms* uniforms);
 
-    Texture::View::Ref GetPrePostProcessingRenderTextureView();
+    Texture::View::Ref GetPostProcessingInputTextureView();
 
     void PostProcessingRenderPass(const CommandEncoder::Ref& commandEncoder, const Texture::View::Ref& surfaceTextureView);
 

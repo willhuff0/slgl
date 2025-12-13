@@ -1,5 +1,7 @@
 #include <slgl/runtime/game/Provider.hpp>
 
+#include <slgl/runtime/game/ecs/moodycamel/MoodycamelQueue.hpp>
+
 static Platform::Backend* platformBackend;
 static Graphics::Backend* graphicsBackend;
 static Graphics::Queue* graphicsQueue;
@@ -13,6 +15,8 @@ static Graphics::BindSet::Ref globalBindSet;
 static Graphics::Sampler::Ref environmentSampler;
 
 static const auto renderTextureFormat = Graphics::Texture::Format::RGBA16Float;
+
+static std::shared_ptr<Decs> decs;
 
 void SetupProvider(Platform::Backend* platform, Graphics::Backend* gfx, uint32_t surfaceFormat) {
     platformBackend = platform;
@@ -66,6 +70,8 @@ void SetupProvider(Platform::Backend* platform, Graphics::Backend* gfx, uint32_t
         .SetMinFilter(Graphics::Sampler::FilterMode::Linear)
         .SetMagFilter(Graphics::Sampler::FilterMode::Linear)
         .Build();
+
+    decs = Decs::Create(std::make_unique<MoodycamelQueue<std::function<void()>>>());
 }
 
 void SetGlobalUniforms(GlobalUniforms* uniforms) {
@@ -117,3 +123,7 @@ Graphics::Queue* GetQueue() { return graphicsQueue; }
 Graphics::Texture::Format GetRenderTextureFormat() { return renderTextureFormat; }
 uint32_t GetRenderTextureSurfaceFormat() { return graphicsRenderTextureFormat; }
 uint32_t GetDisplaySurfaceFormat() { return graphicsSurfaceFormat; }
+
+uint32_t GetMultisampleCount() { return 4; }
+
+Decs* GetDecs() { return decs.get(); }

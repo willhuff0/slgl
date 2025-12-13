@@ -353,6 +353,9 @@ Terrain::Terrain(int seed) : seed(seed) {
             .cullMode = ShaderPipeline::Render::Primitive::CullMode::None,
         })
         .SetDepthStencil({ })
+        .SetMultisample({
+            .count = GetMultisampleCount(),
+        })
         .SetFragment({
             .module = shaderModule,
             .entry = "fs_main",

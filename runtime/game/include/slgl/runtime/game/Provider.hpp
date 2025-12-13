@@ -3,6 +3,8 @@
 #include <slgl/runtime/platform/Platform.hpp>
 #include <slgl/runtime/graphics/Graphics.hpp>
 
+#include <decs/Decs.hpp>
+
 using namespace SLGL;
 
 struct alignas(16) GlobalUniforms {
@@ -28,3 +30,7 @@ Graphics::Queue* GetQueue();
 Graphics::Texture::Format GetRenderTextureFormat();
 uint32_t GetRenderTextureSurfaceFormat();
 uint32_t GetDisplaySurfaceFormat();
+
+uint32_t GetMultisampleCount();
+
+Decs* GetDecs();

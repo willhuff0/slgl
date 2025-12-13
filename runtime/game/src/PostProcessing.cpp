@@ -284,7 +284,7 @@ void PostProcessing::ResizeRenderTexture(glm::ivec2 newSize) {
         .SetSize(glm::ivec3(newSize, 1));
 
     inputRenderTextureView = renderTextureBuilder
-        .SetLabel("Pre Post Processing Render Texture")
+        .SetLabel("Post Processing Input Render Texture")
         .Build()->CreateView().Build();
     renderTextureView1 = renderTextureBuilder
         .SetLabel("Post Processing Intermediate Render Texture 1")
@@ -328,7 +328,7 @@ void PostProcessing::SetUniforms(PostProcessingUniforms* uniforms) {
     uniformBuffer->Write(GetQueue(), &uniforms);
 }
 
-Texture::View::Ref PostProcessing::GetPrePostProcessingRenderTextureView() { return inputRenderTextureView; }
+Texture::View::Ref PostProcessing::GetPostProcessingInputTextureView() { return inputRenderTextureView; }
 
 void PostProcessing::PostProcessingRenderPass(const CommandEncoder::Ref& commandEncoder, const Texture::View::Ref& surfaceTextureView) {
     commandEncoder->EncodeRenderPass({

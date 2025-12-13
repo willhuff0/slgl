@@ -884,6 +884,9 @@ Skybox::Skybox(Texture::Ref cubeMap, Texture::Ref irradianceMap, Texture::Ref ra
             },
         })
         .SetDepthStencil({ })
+        .SetMultisample({
+            .count = GetMultisampleCount(),
+        })
         .SetFragment({
             .module = shaderModule,
             .entry = "fs_main",

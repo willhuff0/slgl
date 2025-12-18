@@ -14,8 +14,8 @@ target_sources(SLGL_RUNTIME_GAME
         src/Skybox.cpp
         src/Node.cpp
         src/PostProcessing.cpp
-        src/ecs/components/CNode.cpp
-        src/ecs/systems/MeshRendererSystem.cpp
+        src/Vehicle.cpp
+        src/MeshRenderer.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -32,9 +32,8 @@ target_sources(SLGL_RUNTIME_GAME
             include/slgl/runtime/game/Skybox.hpp
             include/slgl/runtime/game/PostProcessing.hpp
             include/slgl/runtime/game/Node.hpp
-            include/slgl/runtime/game/ecs/components/NodeComponent.hpp
-            include/slgl/runtime/game/ecs/components/MeshComponent.hpp
-            include/slgl/runtime/game/ecs/systems/MeshRendererSystem.hpp
+            include/slgl/runtime/game/Vehicle.hpp
+            include/slgl/runtime/game/MeshRenderer.hpp
 )
 
 FetchContent_Declare(decs
@@ -44,11 +43,14 @@ FetchContent_Declare(decs
 )
 FetchContent_MakeAvailable(decs)
 
+find_package(assimp REQUIRED)
+
 target_link_libraries(SLGL_RUNTIME_GAME
     PUBLIC
         SLGL::COMMON
         SLGL::RUNTIME
         decs
+        assimp::assimp
     PRIVATE
         slgl_warnings
 )

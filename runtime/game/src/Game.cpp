@@ -21,6 +21,8 @@ Game::Game(Platform::Backend* platform, Platform::Window::Ref window, Graphics::
     terrain = std::make_unique<Terrain>(6767);
 
     SetSkybox(skybox->GetIrradianceMap(), skybox->GetRadianceMap(), skybox->GetBrdfLut());
+
+    meshRenderer = std::make_unique<MeshRenderer>();
 }
 
 void Game::MainLoop() {
@@ -68,22 +70,21 @@ void Game::MainLoop() {
 
     // Main Render Pass
     auto postProcessingInputRenderTextureView = postProcessing->GetPostProcessingInputTextureView();
-    CommandEncoder::RenderPass renderPass {
+    commandEncoder->EncodeRenderPass({
         .label = "Main",
         .colorAttachments = {
-            CommandEncoder::RenderPass::ColorAttachment {
+            RenderPass::ColorAttachment {
                 .textureView = multisampleTextureView,
                 .resolveTextureView = postProcessingInputRenderTextureView,
                 .clearColor = glm::vec4(0.0, 0.0, 0.0, 1.0),
             },
         },
         .depthStencilAttachment = {
-            CommandEncoder::RenderPass::DepthStencilAttachment {
+            RenderPass::DepthStencilAttachment {
                 .textureView = depthTextureView,
             },
         },
-    };
-    commandEncoder->EncodeRenderPass(renderPass, [&](RenderEncoder* renderEncoder){
+    }, [&](RenderEncoder* renderEncoder){
         BindGlobals(renderEncoder);
         terrain->Draw(renderEncoder);
         skybox->Draw(flyCamera.GetProjMat(), flyCamera.GetViewMat(), renderEncoder);

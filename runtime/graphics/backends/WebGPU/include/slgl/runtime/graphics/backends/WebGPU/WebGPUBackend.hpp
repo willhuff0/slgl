@@ -34,11 +34,14 @@ namespace SLGL::Graphics::WebGPU {
         Graphics::ShaderPipeline::Layout::Builder CreateShaderPipelineLayout() override;
         Graphics::ShaderPipeline::Render::Builder CreateShaderRenderPipeline(Graphics::ShaderPipeline::Layout::Ref layout) override;
         Graphics::CommandEncoder::Ref CreateCommandEncoder(const std::string& label) override;
+        Graphics::RenderBundle::Builder CreateRenderBundle() override;
 
         void SubmitCommands(Graphics::Queue* queue, Graphics::CommandBuffer::Ref commandBuffer) override;
         void SubmitCommands(Graphics::Queue* queue, const std::vector<Graphics::CommandBuffer::Ref> &commandBuffers) override;
 
         void Tick() override;
+
+        bool IsMultiDrawIndirectSupported() override;
 
         [[nodiscard]] Graphics::MipmapGenerator* GetMipmapGenerator() const;
 
@@ -57,5 +60,7 @@ namespace SLGL::Graphics::WebGPU {
         std::unique_ptr<Graphics::MipmapGenerator> mipmapGenerator = nullptr;
 
         bool isDeviceLossIntentional = false;
+
+        bool isMultiDrawIndirectSupported = false;
     };
 }

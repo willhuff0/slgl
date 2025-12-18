@@ -557,16 +557,15 @@ void CubeMapConverter::capture(const BindSet::Ref& perMapBindSet, const Texture:
             .SetBaseMipLevel(mipMap)
             .Build();
 
-        CommandEncoder::RenderPass renderPass {
+        commandEncoder->EncodeRenderPass({
             .label = "CubeMapConverter",
             .colorAttachments = {
-                CommandEncoder::RenderPass::ColorAttachment {
+                RenderPass::ColorAttachment {
                     .textureView = cubeMapTextureView,
                     .clearColor = glm::vec4(0.0, 0.0, 0.0, 1.0),
                 },
             },
-        };
-        commandEncoder->EncodeRenderPass(renderPass, [&](RenderEncoder* renderEncoder){
+        }, [&](RenderEncoder* renderEncoder){
             renderEncoder->SetPipeline(shaderPipeline);
             renderEncoder->SetBindSet(0, faceBindSets.at(i));
             renderEncoder->SetBindSet(1, perMapBindSet);
@@ -739,16 +738,15 @@ Texture::Ref EnvBrdfLutGenerator::GenerateBrdfLut(const std::string& label) {
         .Build();
 
     auto commandEncoder = GetGFX()->CreateCommandEncoder("Environment BRDF LUT Generator");
-    CommandEncoder::RenderPass renderPass {
+    commandEncoder->EncodeRenderPass({
         .label = "Environment BRDF LUT Generator",
         .colorAttachments = {
-            CommandEncoder::RenderPass::ColorAttachment {
+            RenderPass::ColorAttachment {
                 .textureView = texture->CreateView().Build(),
                 .clearColor = glm::vec4(0.0, 0.0, 0.0, 1.0),
             },
         },
-    };
-    commandEncoder->EncodeRenderPass(renderPass, [&](RenderEncoder* renderEncoder){
+    }, [&](RenderEncoder* renderEncoder){
         renderEncoder->SetPipeline(shaderPipeline);
         renderEncoder->Draw(6);
     });

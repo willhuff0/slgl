@@ -13,12 +13,14 @@
 #include "ShaderPipeline.hpp"
 #include "CommandBuffer.hpp"
 #include "CommandEncoder.hpp"
+#include "RenderBundle.hpp"
 
 #include <slgl/common/data/Data.hpp>
 #include <slgl/runtime/platform/Window.hpp>
 
 #include <memory>
 #include <vector>
+#include <unordered_set>
 #include <optional>
 
 namespace SLGL::Graphics {
@@ -40,10 +42,13 @@ namespace SLGL::Graphics {
         virtual ShaderPipeline::Layout::Builder CreateShaderPipelineLayout() = 0;
         virtual ShaderPipeline::Render::Builder CreateShaderRenderPipeline(ShaderPipeline::Layout::Ref layout) = 0;
         virtual CommandEncoder::Ref CreateCommandEncoder(const std::string& label) = 0;
+        virtual RenderBundle::Builder CreateRenderBundle() = 0;
 
         virtual void SubmitCommands(Queue* queue, CommandBuffer::Ref commandBuffer) = 0;
         virtual void SubmitCommands(Queue* queue, const std::vector<CommandBuffer::Ref>& commandBuffers) = 0;
 
         virtual void Tick() = 0;
+
+        [[nodiscard]] virtual bool IsMultiDrawIndirectSupported() = 0;
     };
 }

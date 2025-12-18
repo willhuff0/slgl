@@ -30,6 +30,9 @@ namespace SLGL::Graphics {
 //        adapterOpts.backendType = BackendType::Vulkan;
         adapter = instance.requestAdapter(adapterOpts);
 
+        wgpu::SupportedFeatures adapterFeatures;
+        adapter.getFeatures(&adapterFeatures);
+
     #if !defined(NDEBUG)
         DebugPrintAdapter(adapter);
     #endif
@@ -70,6 +73,11 @@ namespace SLGL::Graphics {
 
         ctx.device = adapter.requestDevice(deviceDesc);
 
+        // Get features
+        wgpu::SupportedFeatures deviceFeatures;
+        ctx.device.getFeatures(&deviceFeatures);
+        isMultiDrawIndirectSupported = ctx.device.hasFeature(wgpu::FeatureName::MultiDrawIndirect);
+
         // Get limits
         Limits actualLimits;
         ctx.device.getLimits(&actualLimits);
@@ -103,7 +111,7 @@ namespace SLGL::Graphics {
         return queueFamilies;
     }
 
-    Graphics::CommandEncoder::Ref WebGPU::Backend::CreateCommandEncoder(const std::string &label) {
+    Graphics::CommandEncoder::Ref WebGPU::Backend::CreateCommandEncoder(const std::string& label) {
         CommandEncoderDescriptor desc = Default;
         desc.label = wgpu::StringView(label);
         return std::make_shared<WebGPU::CommandEncoder>(ctx.device.createCommandEncoder(desc), label);
@@ -128,6 +136,10 @@ namespace SLGL::Graphics {
     #elif defined(WEBGPU_BACKEND_WGPU)
         ctx.device.poll(false, nullptr);
     #endif
+    }
+
+    bool WebGPU::Backend::IsMultiDrawIndirectSupported() {
+        return isMultiDrawIndirectSupported;
     }
 
     Graphics::MipmapGenerator* WebGPU::Backend::GetMipmapGenerator() const {

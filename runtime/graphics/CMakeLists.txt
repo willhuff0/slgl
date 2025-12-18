@@ -10,6 +10,7 @@ target_sources(SLGL_RUNTIME_GRAPHICS
         src/ShaderModuleBuilder.cpp
         src/ShaderPipelineBuilder.cpp
         src/TextureBuilder.cpp
+        src/RenderBundleBuilder.cpp
         src/MipmapGenerator.cpp
     PUBLIC
         FILE_SET HEADERS
@@ -29,6 +30,7 @@ target_sources(SLGL_RUNTIME_GRAPHICS
             include/slgl/runtime/graphics/CommandBuffer.hpp
             include/slgl/runtime/graphics/CommandEncoder.hpp
             include/slgl/runtime/graphics/RenderEncoder.hpp
+            include/slgl/runtime/graphics/RenderBundle.hpp
             include/slgl/runtime/graphics/MipmapGenerator.hpp
 )
 

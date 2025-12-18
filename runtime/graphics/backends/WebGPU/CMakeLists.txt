@@ -46,6 +46,8 @@ target_sources(SLGL_RUNTIME_GRAPHICS
         src/WebGPUShaderRenderPipeline.cpp
         src/WebGPUCommandBuffer.cpp
         src/WebGPUCommandEncoder.cpp
+        src/WebGPURenderBundle.cpp
+        src/WebGPURenderBundleEncoder.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -66,6 +68,8 @@ target_sources(SLGL_RUNTIME_GRAPHICS
             include/slgl/runtime/graphics/backends/WebGPU/WebGPUShaderRenderPipeline.hpp
             include/slgl/runtime/graphics/backends/WebGPU/WebGPUCommandBuffer.hpp
             include/slgl/runtime/graphics/backends/WebGPU/WebGPUCommandEncoder.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPURenderBundle.hpp
+            include/slgl/runtime/graphics/backends/WebGPU/WebGPURenderBundleEncoder.hpp
 )
 
 target_include_directories(SLGL_RUNTIME_GRAPHICS

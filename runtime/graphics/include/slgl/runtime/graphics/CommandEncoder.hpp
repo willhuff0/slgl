@@ -1,63 +1,31 @@
 #pragma once
 
+#include "Buffer.hpp"
+#include "RenderPass.hpp"
 #include "RenderEncoder.hpp"
 #include "CommandBuffer.hpp"
 
-#include <slgl/common/Math.hpp>
-
-#include <vector>
 #include <functional>
-#include <optional>
-#include <cstdint>
+#include <string>
 
 namespace SLGL::Graphics {
     class CommandEncoder {
     public:
         typedef std::shared_ptr<CommandEncoder> Ref;
 
-        struct RenderPass {
-            enum class LoadOp : uint8_t {
-                None,
-                Load,
-                Clear,
-            };
-            enum class StoreOp : uint8_t {
-                None,
-                Store,
-                Discard,
-            };
-
-            struct ColorAttachment {
-                Texture::View::Ref textureView = nullptr;
-                Texture::View::Ref resolveTextureView = nullptr;
-                LoadOp loadOp = LoadOp::Clear;
-                StoreOp storeOp = StoreOp::Store;
-                glm::vec4 clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-            };
-            struct DepthStencilAttachment {
-                LoadOp depthLoadOp = LoadOp::Clear;
-                StoreOp depthStoreOp = StoreOp::Store;
-                float depthClearValue = 1.0f;
-                bool depthReadOnly = false;
-
-                LoadOp stencilLoadOp = LoadOp::None;
-                StoreOp stencilStoreOp = StoreOp::None;
-                uint32_t stencilClearValue = 0;
-                bool stencilReadOnly = false;
-
-                Texture::View::Ref textureView = nullptr;
-            };
-
-            std::string label;
-            std::vector<ColorAttachment> colorAttachments;
-            std::optional<DepthStencilAttachment> depthStencilAttachment;
-        };
-
         virtual ~CommandEncoder() = default;
 
         virtual void SetLabel(const std::string& newLabel) = 0;
 
         [[nodiscard]] virtual const std::string& GetLabel() const = 0;
+
+        virtual void ClearBuffer(Buffer::Ref buffer, uint64_t offset, uint64_t size) = 0;
+        virtual void ClearBuffer(Buffer::Ref buffer, uint64_t offset) = 0;
+        virtual void ClearBuffer(Buffer::Ref buffer) = 0;
+
+        virtual void CopyBuffer(Buffer::Ref from, uint64_t fromOffset, Buffer::Ref to, uint64_t toOffset, uint64_t size) = 0;
+        virtual void CopyBuffer(Buffer::Ref from, Buffer::Ref to, uint64_t size) = 0;
+        virtual void CopyBuffer(Buffer::Ref from, Buffer::Ref to) = 0;
 
         virtual void EncodeRenderPass(const RenderPass& renderPass, const std::function<void(RenderEncoder*)>& func) = 0;
 

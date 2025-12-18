@@ -7,6 +7,7 @@
 #include "backends/WebGPU/WebGPUShaderModule.hpp"
 #include "backends/WebGPU/WebGPUShaderPipelineLayout.hpp"
 #include "backends/WebGPU/WebGPUShaderRenderPipeline.hpp"
+#include "backends/WebGPU/WebGPURenderBundle.hpp"
 #include "backends/WebGPU/WebGPUConverters.hpp"
 
 #include <string>
@@ -59,5 +60,10 @@ namespace SLGL::Graphics {
     Graphics::ShaderPipeline::Render::Builder WebGPU::Backend::CreateShaderRenderPipeline(Graphics::ShaderPipeline::Layout::Ref layout) {
         static WebGPU::ShaderPipeline::Render::Builder impl(ctx);
         return Graphics::ShaderPipeline::Render::Builder(&impl, layout);
+    }
+
+    Graphics::RenderBundle::Builder WebGPU::Backend::CreateRenderBundle() {
+        static WebGPU::RenderBundle::Builder impl(ctx);
+        return Graphics::RenderBundle::Builder(&impl);
     }
 }

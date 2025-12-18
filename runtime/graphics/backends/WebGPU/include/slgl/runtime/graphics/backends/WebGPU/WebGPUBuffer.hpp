@@ -16,7 +16,7 @@ namespace SLGL::Graphics::WebGPU {
         public:
             explicit Builder(Context& ctx);
 
-            Ref Build(Graphics::Buffer::Builder &builder) override;
+            Ref Build(Graphics::Buffer::Builder& builder) override;
 
         private:
             Context& ctx;
@@ -31,8 +31,8 @@ namespace SLGL::Graphics::WebGPU {
         const std::string &GetLabel() override;
         uint64_t GetSize() override;
 
-        void Write(Graphics::Queue* queue, void *src, uint64_t offset, uint64_t size) override;
-        void Write(Graphics::Queue* queue, void *src) override;
+        void Write(Graphics::Queue* queue, void* src, uint64_t offset, uint64_t size) override;
+        void Write(Graphics::Queue* queue, void* src) override;
 
     private:
         wgpu::Buffer buffer;

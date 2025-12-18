@@ -16,13 +16,14 @@ namespace SLGL::Graphics {
         public:
             typedef Flags<uint8_t> Flags;
 
-            static constexpr uint8_t None    = 0b00000000;
-            static constexpr uint8_t Write   = 0b00000001;
-            static constexpr uint8_t Read    = 0b00000010;
-            static constexpr uint8_t Index   = 0b00000100;
-            static constexpr uint8_t Vertex  = 0b00001000;
-            static constexpr uint8_t Uniform = 0b00010000;
-            static constexpr uint8_t Storage = 0b00100000;
+            static constexpr uint8_t None     = 0b00000000;
+            static constexpr uint8_t Write    = 0b00000001;
+            static constexpr uint8_t Read     = 0b00000010;
+            static constexpr uint8_t Index    = 0b00000100;
+            static constexpr uint8_t Vertex   = 0b00001000;
+            static constexpr uint8_t Uniform  = 0b00010000;
+            static constexpr uint8_t Storage  = 0b00100000;
+            static constexpr uint8_t Indirect = 0b01000000;
         };
 
         class Builder {
@@ -59,7 +60,7 @@ namespace SLGL::Graphics {
         virtual const std::string& GetLabel() = 0;
         virtual uint64_t GetSize() = 0;
 
-        virtual void Write(Queue* queue, void *src, uint64_t offset, uint64_t size) = 0;
-        virtual void Write(Queue* queue, void *src) = 0;
+        virtual void Write(Queue* queue, void* src, uint64_t offset, uint64_t size) = 0;
+        virtual void Write(Queue* queue, void* src) = 0;
     };
 }

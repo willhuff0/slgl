@@ -9,8 +9,6 @@ MeshRendererSystem::MeshRendererSystem() {
         [](const NodeComponent& nodeComp, const MeshComponent& meshComp) {
             auto node = nodeComp.GetNode();
             if (!node->IsEnabled()) return;
-
-            if (node)
         });
 }
 

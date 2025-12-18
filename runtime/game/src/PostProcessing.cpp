@@ -334,7 +334,7 @@ void PostProcessing::PostProcessingRenderPass(const CommandEncoder::Ref& command
     commandEncoder->EncodeRenderPass({
             .label = "Post Processing - Split Brightness (Input -> 1)",
             .colorAttachments = {
-                CommandEncoder::RenderPass::ColorAttachment {
+                RenderPass::ColorAttachment {
                     .textureView = renderTextureView1,
                 },
             },
@@ -354,7 +354,7 @@ void PostProcessing::PostProcessingRenderPass(const CommandEncoder::Ref& command
         commandEncoder->EncodeRenderPass({
                 .label = "Post Processing - Blur Pass " + std::to_string(i) + ", " + pingPongLabels[horizontal],
                 .colorAttachments = {
-                    CommandEncoder::RenderPass::ColorAttachment {
+                    RenderPass::ColorAttachment {
                         .textureView = pingPongTargets[horizontal],
                     },
                 },
@@ -369,7 +369,7 @@ void PostProcessing::PostProcessingRenderPass(const CommandEncoder::Ref& command
     commandEncoder->EncodeRenderPass({
             .label = "Post Processing - Color Correction (1 -> Surface)",
             .colorAttachments = {
-                CommandEncoder::RenderPass::ColorAttachment {
+                RenderPass::ColorAttachment {
                     .textureView = surfaceTextureView,
                 },
             },

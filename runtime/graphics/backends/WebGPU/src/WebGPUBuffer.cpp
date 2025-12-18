@@ -14,6 +14,7 @@ namespace SLGL::Graphics {
         if (flagBits.test(3)) usage |= wgpu::BufferUsage::Vertex;
         if (flagBits.test(4)) usage |= wgpu::BufferUsage::Uniform;
         if (flagBits.test(5)) usage |= wgpu::BufferUsage::Storage;
+        if (flagBits.test(6)) usage |= wgpu::BufferUsage::Indirect;
         return usage;
     }
 

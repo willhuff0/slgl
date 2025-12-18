@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Queue.hpp"
-
 #include <memory>
 #include <string>
 

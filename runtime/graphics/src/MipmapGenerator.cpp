@@ -86,7 +86,7 @@ namespace SLGL::Graphics {
             commandEncoder->EncodeRenderPass({
                 .label = "SLGL Mipmap Generator Render Pass (Level: " + std::to_string(mipLevel) + ")",
                 .colorAttachments = {
-                    CommandEncoder::RenderPass::ColorAttachment {
+                    RenderPass::ColorAttachment {
                         .textureView = outputView,
                     }
                 }

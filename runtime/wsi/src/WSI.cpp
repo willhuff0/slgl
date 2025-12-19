@@ -1,4 +1,4 @@
-#include <slgl/runtime/surfaces/Surfaces.hpp>
+#include <slgl/runtime/wsi/WSI.hpp>
 
 #include <stdexcept>
 
@@ -16,12 +16,16 @@
 #include <slgl/runtime/graphics/backends/WebGPU/WebGPUBackend.hpp>
 #endif
 
+#if defined(SLGL_GRAPHICS_BACKEND_VULKAN)
+#include <slgl/runtime/graphics/backends/Vulkan/VulkanBackend.hpp>
+#endif
+
 // ===
 
 #if defined(SLGL_PLATFORM_BACKEND_SDL3)
 
 #if defined(SLGL_GRAPHICS_BACKEND_WEBGPU)
-#include "backends/SDL3_WebGPU_SurfaceCreator.hpp"
+#include "backends/SDL3_WebGPU_WSI.hpp"
 #endif
 
 #endif
@@ -31,12 +35,12 @@
 #if defined(SLGL_PLATFORM_BACKEND_GLFW)
 
 #if defined(SLGL_GRAPHICS_BACKEND_WEBGPU)
-#include "backends/GLFW_WebGPU_SurfaceCreator.hpp"
+#include "backends/GLFW_WebGPU_WSI.hpp"
 #endif
 
 #endif
 
-namespace SLGL::Surfaces {
+namespace SLGL::WSI {
     Graphics::Surface::Ref CreateSurface(Graphics::Backend* gfx, Platform::Window::Ref window, bool vsync) {
 #if defined(SLGL_PLATFORM_BACKEND_SDL3) && defined(SLGL_GRAPHICS_BACKEND_WEBGPU)
         if (dynamic_cast<Platform::SDL3::Window*>(window.get()) && dynamic_cast<Graphics::WebGPU::Backend*>(gfx)) {
@@ -50,5 +54,9 @@ namespace SLGL::Surfaces {
 #endif
 
         throw std::runtime_error("No available surface creator for this platform/graphics backend combination.");
+    }
+
+    std::vector<std::string> GetRequiredExtensions(Platform::Backend* backend) {
+
     }
 }

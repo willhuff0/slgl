@@ -30,9 +30,10 @@ namespace SLGL::Graphics {
         return nullptr;
 #endif
     }
-    static Backend* GetVulkanBackend(const std::vector<QueueFamily>& queueFamilies) {
+    static Backend* GetVulkanBackend(const std::vector<std::string>& extensions, const std::vector<QueueFamily>& queueFamilies) {
 #if defined(SLGL_GRAPHICS_BACKEND_VULKAN)
-#error Vulkan not implemented!
+        static Vulkan::Backend gfx(extensions queueFamilies);
+        return &gfx;
 #else
         return nullptr;
 #endif
@@ -46,39 +47,39 @@ namespace SLGL::Graphics {
 #endif
     }
 
-    Backend* GetBackend(const std::vector<QueueFamily>& queueFamilies, BackendType backend) {
+    Backend* GetBackend(const std::vector<std::string>& extensions, const std::vector<QueueFamily>& queueFamilies, BackendType backend) {
         switch (backend) {
             case BackendType::DX12:
                 return GetDX12Backend(queueFamilies);
             case BackendType::Metal:
                 return GetMetalBackend(queueFamilies);
             case BackendType::Vulkan:
-                return GetVulkanBackend(queueFamilies);
+                return GetVulkanBackend(extensions, queueFamilies);
             case BackendType::WebGPU:
                 return GetWebGPUBackend(queueFamilies);
             default:
                 throw std::runtime_error("");
         }
     }
-    Backend* GetBackend(const std::vector<QueueFamily>& queueFamilies) {
+    Backend* GetBackend(const std::vector<std::string>& extensions, const std::vector<QueueFamily>& queueFamilies) {
 #if defined(SLGL_GRAPHICS_BACKEND_DX12)
-        return GetGFX(queues, GraphicsBackendType::DX12);
+        return GetBackend(extensions, queueFamilies, BackendType::DX12);
 #elif defined(SLGL_GRAPHICS_BACKEND_METAL)
-        return GetGFX(queues, GraphicsBackendType::Metal);
+        return GetBackend(extensions, queueFamilies, BackendType::Metal);
 #elif defined(SLGL_GRAPHICS_BACKEND_VULKAN)
-        return GetGFX(queues, GraphicsBackendType::Vulkan);
+        return GetBackend(extensions, queueFamilies, BackendType::Vulkan);
 #elif defined(SLGL_GRAPHICS_BACKEND_WEBGPU)
-        return GetBackend(queueFamilies, BackendType::WebGPU);
+        return GetBackend(extensions, queueFamilies, BackendType::WebGPU);
 #else
 #error No available graphics backends!
 #endif
     }
-    Backend* GetBackend() {
-        return GetBackend({
+    Backend* GetBackend(const std::vector<std::string>& extensions) {
+        return GetBackend(extensions, {
             QueueFamily {
                 .capability = QueueFamily::Capability::Graphics | QueueFamily::Capability::Transfer,
                 .count = 1,
-            }
+            },
         });
     }
 }

@@ -6,9 +6,9 @@ FetchContent_Declare(sdl3webgpu
     URL_HASH SHA256=67fb46e03aec005f67d3784f5cafbaf7210837f0c1ea56b4edac539bc9356d44
 )
 FetchContent_MakeAvailable(sdl3webgpu)
-target_link_libraries(SLGL_RUNTIME_SURFACES PRIVATE sdl3webgpu)
+target_link_libraries(SLGL_RUNTIME_WSI PRIVATE sdl3webgpu)
 
-target_sources(SLGL_RUNTIME_SURFACES
+target_sources(SLGL_RUNTIME_WSI
     PRIVATE
         src/SDL3_WebGPU_SurfaceCreator.cpp
     PUBLIC
@@ -18,4 +18,4 @@ target_sources(SLGL_RUNTIME_SURFACES
             headers/backends/SDL3_WebGPU_SurfaceCreator.hpp
 )
 
-target_include_directories(SLGL_RUNTIME_SURFACES PRIVATE headers)
+target_include_directories(SLGL_RUNTIME_WSI PRIVATE headers)

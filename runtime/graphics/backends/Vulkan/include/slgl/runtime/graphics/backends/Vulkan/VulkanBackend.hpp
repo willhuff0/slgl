@@ -25,6 +25,7 @@ namespace SLGL::Graphics::Vulkan {
         Graphics::Texture::Builder CreateTexture() override;
         Graphics::Texture::Ref CreateTexture(const std::string& label, Graphics::Queue* queue, const SLGL::Data::Image& image, int mipLevels) override;
         Graphics::Texture::Ref CreateTexture(const std::string& label, Graphics::Queue* queue, const SLGL::Data::Image& image) override;
+        uint32_t GetSurfaceTextureFormat(Texture::Format format, Texture::ColorSpace colorSpace) override;
         Graphics::BindSet::Layout::Builder CreateBindSetLayout() override;
         Graphics::ShaderModule::Source::Ref CreateShaderSource(const SLGL::Data::Shader& shader) override;
         Graphics::ShaderModule::Builder CreateShaderModule() override;
@@ -37,9 +38,12 @@ namespace SLGL::Graphics::Vulkan {
 
         void Tick() override;
 
+        bool IsMultiDrawIndirectSupported() override;
+
         [[nodiscard]] Graphics::MipmapGenerator* GetMipmapGenerator() const;
 
     private:
-
+        vk::Instance instance;
+        vk::Device device;
     };
 }

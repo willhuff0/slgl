@@ -17,16 +17,16 @@ FetchContent_Declare(glfw3webgpu
 )
 FetchContent_MakeAvailable(glfw3webgpu)
 
-target_link_libraries(SLGL_RUNTIME_SURFACES PRIVATE glfw3webgpu)
+target_link_libraries(SLGL_RUNTIME_WSI PRIVATE glfw3webgpu)
 
-target_sources(SLGL_RUNTIME_SURFACES
+target_sources(SLGL_RUNTIME_WSI
     PRIVATE
-        src/GLFW_WebGPU_SurfaceCreator.cpp
+        src/GLFW_WebGPU_WSI.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS headers
         FILES
-            headers/backends/GLFW_WebGPU_SurfaceCreator.hpp
+            headers/backends/GLFW_WebGPU_WSI.hpp
 )
 
-target_include_directories(SLGL_RUNTIME_SURFACES PRIVATE headers)
+target_include_directories(SLGL_RUNTIME_WSI PRIVATE headers)

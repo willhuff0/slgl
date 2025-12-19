@@ -1,10 +1,13 @@
 #pragma once
 
 #include <slgl/runtime/graphics/Backend.hpp>
-#include <slgl/runtime/platform/Window.hpp>
+#include <slgl/runtime/platform/Platform.hpp>
 
 #include <memory>
+#include <vector>
+#include <string>
 
 namespace SLGL::Surfaces::SDL3_WebGPU {
     Graphics::Surface::Ref CreateSurface(Graphics::Backend* gfx, Platform::Window::Ref window, bool vsync);
+    std::vector<std::string> GetRequiredExtensions(Platform::Backend* backend);
 }

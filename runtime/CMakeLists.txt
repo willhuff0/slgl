@@ -5,7 +5,7 @@ add_subdirectory(executable)
 add_subdirectory(game)
 add_subdirectory(platform)
 add_subdirectory(graphics)
-add_subdirectory(surfaces)
+add_subdirectory(wsi)
 add_subdirectory(physics)
 add_subdirectory(resources)
 add_subdirectory(scene)
@@ -15,7 +15,7 @@ target_link_libraries(SLGL_RUNTIME
     INTERFACE
         SLGL::RUNTIME::PLATFORM
         SLGL::RUNTIME::GRAPHICS
-        SLGL::RUNTIME::SURFACES
+        SLGL::RUNTIME::WSI
         SLGL::RUNTIME::PHYSICS
         SLGL::RUNTIME::RESOURCES
         SLGL::RUNTIME::SCENE

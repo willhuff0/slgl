@@ -4,6 +4,8 @@
 
 #include "backends/SDL3/SDL3Window.hpp"
 
+#include <SDL3/SDL.h>
+
 #include <string>
 #include <cstdint>
 #include <unordered_map>

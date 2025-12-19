@@ -6,11 +6,18 @@ target_compile_definitions(SLGL_RUNTIME_GRAPHICS
         VULKAN_HPP_NO_CONSTRUCTORS
 )
 
+find_package(Vulkan REQUIRED)
+target_link_libraries(SLGL_RUNTIME_GRAPHICS
+    PRIVATE
+        Vulkan::Vulkan
+)
+
 target_sources(SLGL_RUNTIME_GRAPHICS
     PRIVATE
         src/VulkanBackend.cpp
         src/VulkanContext.cpp
         src/VulkanBuffer.cpp
+        src/VulkanSurface.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -18,6 +25,7 @@ target_sources(SLGL_RUNTIME_GRAPHICS
             include/slgl/runtime/graphics/backends/Vulkan/VulkanBackend.hpp
             include/slgl/runtime/graphics/backends/Vulkan/VulkanContext.hpp
             include/slgl/runtime/graphics/backends/Vulkan/VulkanBuffer.hpp
+            include/slgl/runtime/graphics/backends/Vulkan/VulkanSurface.hpp
 )
 
 target_include_directories(SLGL_RUNTIME_GRAPHICS

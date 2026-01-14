@@ -4,7 +4,7 @@
 #include <slgl/runtime/game/utils/Paths.hpp>
 #include <slgl/runtime/game/TempImageLoader.hpp>
 
-#include <slgl/runtime/surfaces/Surfaces.hpp>
+#include <slgl/runtime/wsi/WSI.hpp>
 
 #include <decs/Decs.hpp>
 

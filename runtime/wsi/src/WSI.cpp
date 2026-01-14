@@ -57,6 +57,6 @@ namespace SLGL::WSI {
     }
 
     std::vector<std::string> GetRequiredExtensions(Platform::Backend* backend) {
-
+        return {};
     }
 }
